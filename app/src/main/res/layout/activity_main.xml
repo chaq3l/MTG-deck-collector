@@ -29,19 +29,28 @@
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:id="@+id/cart_oracle_id"
+        android:hint="Oracle cart id"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <EditText
         android:id="@+id/deck_id"
         android:hint="Deck id"
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <!--<EditText
-        android:id="@+id/cart_id_from_deck"
-        android:hint="Cart id from deck"
-        android:inputType="number"
+    <EditText
+        android:id="@+id/deck_name"
+        android:hint="Deck name"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-       -->
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:weightSum="4"
@@ -68,6 +77,38 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
         <Button
+            android:id="@+id/btn_show_cart"
+            android:text="Crt Show"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_add_deck"
+            android:text="Add Deck"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_delete_deck"
+            android:text="Del Deck"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_show_deck"
+            android:text="Dck Show"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <Button
             android:id="@+id/btn_readJSON"
             android:text="JSON"
             android:layout_weight="1"
@@ -77,6 +118,12 @@
 
     <ListView
         android:id="@+id/cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:choiceMode="singleChoice" />
+
+    <ListView
+        android:id="@+id/deck_list"
         android:choiceMode="singleChoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

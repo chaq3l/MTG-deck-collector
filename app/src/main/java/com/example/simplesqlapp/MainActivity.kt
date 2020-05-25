@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import com.example.simplesqlapp.Adapter.ListCartAdapter
+import com.example.simplesqlapp.Adapter.ListDeckAdapter
 import com.example.simplesqlapp.DBHelper.DBHelper
 import com.example.simplesqlapp.Model.Cart
+import com.example.simplesqlapp.Model.Deck
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import java.io.IOException
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     internal lateinit var db: DBHelper
     internal var lstCart: List<Cart> = ArrayList<Cart>()
+    internal var lstDeck: List<Deck> = ArrayList<Deck>()
     val REQUEST_READ_EXTERNAL = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     val cart = Cart(
                         Integer.parseInt(unique_cart_id.text.toString()),
                         cart_name.text.toString(),
-                        deck_id.text.toString()
+                        cart_oracle_id.text.toString()
                     )
                     db.addCart(cart)
                     refreshData()
@@ -71,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                     val cart = Cart(
                         Integer.parseInt(unique_cart_id.text.toString()),
                         cart_name.text.toString(),
-                        deck_id.text.toString()
+                        cart_oracle_id.text.toString()
                     )
                     db.updateCart(cart)
                     refreshData()
@@ -80,14 +83,37 @@ class MainActivity : AppCompatActivity() {
                     val cart = Cart(
                         Integer.parseInt(unique_cart_id.text.toString()),
                         cart_name.text.toString(),
-                        deck_id.text.toString()
+                        cart_oracle_id.text.toString()
                     )
                     db.deleteCart(cart)
                     refreshData()
+
                 }
                 btn_readJSON.setOnClickListener {
                     readFile()
                 }
+
+
+                btn_add_deck.setOnClickListener {
+                    val deck = Deck(
+                        Integer.parseInt(deck_id.text.toString()),
+                        deck_name.text.toString()
+                    )
+                    db.addDeck(deck)
+                    refreshData()
+                }
+
+
+                btn_delete_deck.setOnClickListener {
+                    val deck = Deck(
+                        Integer.parseInt(deck_id.text.toString()),
+                        deck_name.text.toString()
+                    )
+                    db.deleteDeck(deck)
+                    refreshData()
+
+                }
+
             }
 
 
@@ -98,10 +124,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshData() {
         lstCart = db.allCarts
-        val adapter =
-            ListCartAdapter(this@MainActivity, lstCart, unique_cart_id, cart_name, deck_id)
+
+        val cartAdapter =
+            ListCartAdapter(this@MainActivity, lstCart, unique_cart_id, cart_name, cart_oracle_id)
         //30:00
-        cart_list.adapter = adapter
+        cart_list.adapter = cartAdapter
+        lstDeck = db.allDecks
+
+        val deckAdapter =
+            ListDeckAdapter(this@MainActivity, lstDeck, deck_id, deck_name)
+        //30:00
+        deck_list.adapter = deckAdapter
     }
 
     private fun readFile() {
