@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"/>
     
     <EditText
-        android:id="@+id/unique_cart_id"
-        android:hint="Unique Cart ID"
+        android:id="@+id/cart_id"
+        android:hint="Cart ID"
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -77,8 +77,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/btn_show_cart"
-            android:text="Crt Show"
+            android:id="@+id/btn_add_cart_to_deck"
+            android:text="Crt->Dck"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>

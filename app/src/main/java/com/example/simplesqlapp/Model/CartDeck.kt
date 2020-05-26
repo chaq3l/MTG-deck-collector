@@ -1,18 +1,20 @@
 package com.example.simplesqlapp.Model
 
 class CartDeck {
-    var id:Int=0
-    //var id:String?=null
-    var name:String?=null
-    //var secondaryId:String?=null
-    //var secondaryId:Int=0
-    var secondaryId:String?=null
+    //var cartDeckId:Int=0 DB HAS AN AUTO INCREMENTATION PRIMARY KAY
+    var cartId:Int=0
+    //var cartName:String?=null
+    //var cartSecondaryId:String?=null
+    var deckId:Int=0
+    //var deckName:String?=null
 
     constructor(){}
-    constructor(uniqueId:Int,name:String,secondaryId:String){
-        this.id=uniqueId
-        this.name=name
-        //this.secondaryId=secondaryId
-        this.secondaryId=secondaryId
+    constructor(cartId:Int, deckId:Int){
+        //this.cartDeckId=cartDeckId
+        this.cartId=cartId
+        //this.cartName=cartName
+        //this.cartSecondaryId=cartSecondaryId
+        this.deckId=deckId
+        //this.deckName=deckName
     }
 }
