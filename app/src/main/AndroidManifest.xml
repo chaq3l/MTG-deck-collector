@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".SingleDeckContent">
         </activity>
+        <activity android:name=".SingleCartContent">
+        </activity>
     </application>
 
 </manifest>

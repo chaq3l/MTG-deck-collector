@@ -3,10 +3,14 @@ package com.example.simplesqlapp
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.support.v7.app.AppCompatActivity
+//import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
+//import android.support.v4.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
 import com.example.simplesqlapp.Adapter.ListCartAdapter
 import com.example.simplesqlapp.Adapter.ListDeckAdapter
 import com.example.simplesqlapp.DBHelper.DBHelper
@@ -116,9 +120,10 @@ class MainActivity : AppCompatActivity() {
             refreshData()
 
         }
+        val getCartPrimaryNumberInDeck:Int= 0
         btn_add_cart_to_deck.setOnClickListener {
         val cartDeck = CartDeck(
-
+            getCartPrimaryNumberInDeck.inc(),
             Integer.parseInt(cart_id.text.toString()),
             //cart_name.text.toString(),
             //cart_oracle_id.text.toString(),
@@ -129,11 +134,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         val actualDeck = findViewById<EditText>(R.id.deck_id)
-        btn_show_deck.setOnClickListener{
+        btn_show_deck.setOnClickListener {
             val deck = actualDeck.text.toString()
-            val intent = Intent(this@MainActivity, SingleDeckContent::class.java)
-            intent.putExtra("actualDeckId", deck)
-            startActivity(intent)
+            if (deck == "") {
+
+            } else {
+
+                val intent = Intent(this@MainActivity, SingleDeckContent::class.java)
+                intent.putExtra("actualDeckId", deck)
+                startActivity(intent)
+            }
         }
     }
 
