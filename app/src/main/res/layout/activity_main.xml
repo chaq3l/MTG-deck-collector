@@ -29,8 +29,8 @@
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/cart_oracle_id"
-        android:hint="Oracle cart id"
+        android:id="@+id/cart_mana_cost"
+        android:hint="Mana Cost"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

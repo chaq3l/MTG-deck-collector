@@ -35,12 +35,12 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/cart_name"
-        android:hint="Cart name"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+<!--    <EditText-->
+<!--        android:id="@+id/cart_name"-->
+<!--        android:hint="Cart name"-->
+<!--        android:inputType="text"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
 
 
     <ImageView
@@ -51,18 +51,17 @@
         android:src="@drawable/ic_launcher_foreground" />
 
 
-
-<!--    <TextView-->
-<!--        android:id="@+id/cart_list"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="274dp"-->
-<!--        android:choiceMode="singleChoice" />-->
-
     <TextView
         android:id="@+id/cart_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice" />
+        android:layout_height="364dp"
+        android:choiceMode="singleChoice"
+        android:hint="" />
 
+        <TextView
+            android:id="@+id/cart_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice" />
 
 </LinearLayout>

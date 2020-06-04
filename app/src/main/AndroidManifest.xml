@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".SingleCartContent">
         </activity>
+        <activity android:name=".AddChosenCartToDeckContent">
+        </activity>
     </application>
 
 </manifest>

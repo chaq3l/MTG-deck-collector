@@ -1,6 +1,6 @@
 package com.example.simplesqlapp
 
-//import android.support.v7.app.AppCompatActivity
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,17 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplesqlapp.Adapter.RecycleViewCartDeckAdapter
-import com.example.simplesqlapp.DBHelper.DBHelper
+
+import com.example.simplesqlapp.DBHelper.SingleDeckDBHelper
 import com.example.simplesqlapp.Model.Cart
 import com.example.simplesqlapp.Model.CartDeck
 import kotlinx.android.synthetic.main.activity_single_deck_content.*
 
 class SingleDeckContent : AppCompatActivity() {
-    private var cartsInDeckList: java.util.ArrayList<Cart> = java.util.ArrayList()
 
-    private var cartsInDeckRecyclerView : RecyclerView? = null
     private var cartsInDeckLayoutManager: RecyclerView.LayoutManager? = null
-    internal lateinit var db: DBHelper
+    internal lateinit var db: SingleDeckDBHelper
     internal var lstCartInDeck: List<Cart> = ArrayList<Cart>()
     private var lstCartsInActualDeckList: List<CartDeck> = ArrayList<CartDeck>()
 
@@ -26,14 +25,14 @@ class SingleDeckContent : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_single_deck_content)
-        cartsInDeckRecyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
         val intent = intent
         val actualDisplayedDeckId = intent.getStringExtra("actualDeckId")
         val actualDisplayedDeckIdInt:Int = Integer.parseInt(actualDisplayedDeckId)
         val deckHeader = findViewById<TextView>(R.id.txt_single_deck_id)
         deckHeader.text = "Deck Id: "+actualDisplayedDeckId
 
-        db = DBHelper(this, actualDisplayedDeckId)
+        db = SingleDeckDBHelper(this, actualDisplayedDeckId)
         refreshData(recyclerView, actualDisplayedDeckIdInt)
     }
 
@@ -56,15 +55,10 @@ class SingleDeckContent : AppCompatActivity() {
             }
         })
 
-//        val cartDeckAdapter =
-//            ListCartDeckAdapter(this@SingleDeckContent, lstCartInDeck, cd_cart_id, cd_cart_name, txt_second_parameter)
-//        //30:00
-//        //recyclerView.adapter = cartDeckAdapter
-//        lstCartInDeck = db.cartsInDeck
 
     }
     fun removeItem(position: Int, mRecyclerView : RecyclerView, actualDisplayedDeckIdInt:Int) {
-        //cartsInDeckList.removeAt(position)
+
         (mRecyclerView.adapter as RecycleViewCartDeckAdapter).notifyItemRemoved(position)
 
             val cartDeck = CartDeck(

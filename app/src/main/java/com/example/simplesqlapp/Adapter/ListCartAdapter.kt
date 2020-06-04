@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.row_layout.view.*
 
 
 class ListCartAdapter(internal var activity: Activity, internal var lstCart: List<Cart>, internal var unique_cart_id:EditText,
-                      internal var cart_name:EditText, internal var cart_oracle_id:EditText):BaseAdapter() {
+                      internal var cart_name:EditText, internal var manaCost:EditText):BaseAdapter() {
     internal var inflater:LayoutInflater
 
     init{
@@ -25,12 +25,12 @@ class ListCartAdapter(internal var activity: Activity, internal var lstCart: Lis
         rowView = inflater.inflate(R.layout.row_layout,null)
         rowView.txt_unique_cart_id.text = lstCart[position].id.toString()
         rowView.txt_cart_name.text = lstCart[position].name.toString()
-        rowView.txt_cart_id.text = lstCart[position].secondaryId.toString()
+        rowView.txt_cart_id.text = lstCart[position].manaCost.toString()
 
         rowView.setOnClickListener{
             unique_cart_id.setText(rowView.txt_unique_cart_id.text.toString())
             cart_name.setText(rowView.txt_cart_name.text.toString())
-            cart_oracle_id.setText(rowView.txt_cart_id.text.toString())
+            manaCost.setText(rowView.txt_cart_id.text.toString())
         }
         return rowView
 

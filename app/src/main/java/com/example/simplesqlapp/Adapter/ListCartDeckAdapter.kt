@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.EditText
 import com.example.simplesqlapp.Model.Cart
-import com.example.simplesqlapp.Model.CartDeck
 import com.example.simplesqlapp.R
 import kotlinx.android.synthetic.main.row_cart_in_deck_layout.view.*
 
@@ -26,7 +25,7 @@ class ListCartDeckAdapter(internal var activity: Activity, internal var lstCartD
         rowView = inflater.inflate(R.layout.row_cart_in_deck_layout,null)
         rowView.txt_cd_cart_id.text = lstCartDeck[position].id.toString()
         rowView.txt_cd_cart_name.text = lstCartDeck[position].name.toString()
-        rowView.txt_cd_second_parameter.text = lstCartDeck[position].secondaryId.toString()
+        rowView.txt_cd_second_parameter.text = lstCartDeck[position].manaCost.toString()
 
 
         rowView.setOnClickListener{

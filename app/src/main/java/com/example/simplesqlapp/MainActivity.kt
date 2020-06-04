@@ -6,11 +6,9 @@ import android.content.pm.PackageManager
 //import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 //import android.support.v4.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
 import com.example.simplesqlapp.Adapter.ListCartAdapter
 import com.example.simplesqlapp.Adapter.ListDeckAdapter
 import com.example.simplesqlapp.DBHelper.DBHelper
@@ -63,14 +61,15 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        db = DBHelper(this, null)
+        db = DBHelper(this)
         refreshData()
 
         btn_add.setOnClickListener {
             val cart = Cart(
                 Integer.parseInt(cart_id.text.toString()),
                 cart_name.text.toString(),
-                cart_oracle_id.text.toString()
+                cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString()
             )
             db.addCart(cart)
             refreshData()
@@ -81,7 +80,8 @@ class MainActivity : AppCompatActivity() {
             val cart = Cart(
                 Integer.parseInt(cart_id.text.toString()),
                 cart_name.text.toString(),
-                cart_oracle_id.text.toString()
+                cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString()
             )
             db.updateCart(cart)
             refreshData()
@@ -90,7 +90,8 @@ class MainActivity : AppCompatActivity() {
             val cart = Cart(
                 Integer.parseInt(cart_id.text.toString()),
                 cart_name.text.toString(),
-                cart_oracle_id.text.toString()
+                cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString()
             )
             db.deleteCart(cart)
             refreshData()
@@ -122,7 +123,9 @@ class MainActivity : AppCompatActivity() {
         }
         val getCartPrimaryNumberInDeck:Int= 0
         btn_add_cart_to_deck.setOnClickListener {
-        val cartDeck = CartDeck(
+            if (cart_id.text.toString()==""){}else{
+
+            val cartDeck = CartDeck(
             getCartPrimaryNumberInDeck.inc(),
             Integer.parseInt(cart_id.text.toString()),
             //cart_name.text.toString(),
@@ -130,7 +133,7 @@ class MainActivity : AppCompatActivity() {
             Integer.parseInt(deck_id.text.toString())
             //deck_name.text.toString()
         )
-            db.addCartToDeck(cartDeck)
+            db.addCartToDeck(cartDeck)}
         }
 
         val actualDeck = findViewById<EditText>(R.id.deck_id)
@@ -157,7 +160,7 @@ class MainActivity : AppCompatActivity() {
         lstCart = db.allCarts
 
         val cartAdapter =
-            ListCartAdapter(this@MainActivity, lstCart, cart_id, cart_name, cart_oracle_id)
+            ListCartAdapter(this@MainActivity, lstCart, cart_id, cart_name, cart_mana_cost)
         //30:00
         cart_list.adapter = cartAdapter
         lstDeck = db.allDecks
@@ -183,7 +186,8 @@ class MainActivity : AppCompatActivity() {
                     //Integer.parseInt(jsonObj.getString("id")),
                     i,
                     jsonObj.getString("name"),
-                    jsonObj.getString("oracle_id")
+                    jsonObj.getString("mana_cost"),
+                    jsonObj.getString("oracle_text")
                 )
                 db.readDataFromJSON(cart)
             }

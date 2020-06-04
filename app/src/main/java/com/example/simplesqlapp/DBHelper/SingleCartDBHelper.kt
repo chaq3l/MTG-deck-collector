@@ -1,17 +1,13 @@
 package com.example.simplesqlapp.DBHelper
 
-import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import com.example.simplesqlapp.Model.Cart
-import com.example.simplesqlapp.Model.CartDeck
-import com.example.simplesqlapp.Model.Deck
 
 
 //import android.widget.ArrayAdapter
 
-class SingleCartDBHelper (context: Context, actualDeck:String?, actualCart: Int?):DBHelper(context,actualDeck) {
+class SingleCartDBHelper (context: Context, actualCart: Int?):DBHelper(context) {
 
 
 
@@ -27,7 +23,8 @@ class SingleCartDBHelper (context: Context, actualDeck:String?, actualCart: Int?
                     val cart = Cart()
                     cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
-                    cart.secondaryId = cursor.getString(cursor.getColumnIndex(CART_SECOND_ID))
+                    cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
+                    cart.cartText = cursor.getString(cursor.getColumnIndex(CART_DESCRIPTION))
 
                     singleCart.add(cart)
                 } while (cursor.moveToNext())

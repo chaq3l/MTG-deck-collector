@@ -11,11 +11,11 @@ import com.example.simplesqlapp.Model.Deck
 
 //import android.widget.ArrayAdapter
 
-open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(context,DATABASE_NAME,null, DATABASE_VER) {
+open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,null, DATABASE_VER) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_CART_TABLE_QUERY: String =
-            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_SECOND_ID TEXT)")
+            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT)")
         val CREATE_DECK_TABLE_QUERY: String =
             ("CREATE TABLE $DECK_TABLE ($DECK_ID INTEGER PRIMARY KEY, $DECK_NAME TEXT NOT NULL)")
         val CREATE_CART_TO_DECK_TABLE: String =
@@ -41,14 +41,15 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
         val CART_TABLE = "Cart"
         val CART_ID = "CartId"
         val CART_NAME = "CartName"
-        val CART_SECOND_ID = "CartSecondaryId"
+        val CART_MANA_COST = "CartSecondaryId"
+        val CART_DESCRIPTION = "CartText"
 
         private val DECK_TABLE = "Deck"
-        private val DECK_ID = "DeckId"
+        val DECK_ID = "DeckId"
         private val DECK_NAME = "DeckName"
 
-        private val CART_IN_SINGLE_DECK = "CartInDeck"
-        private val CART_IN_DECK_ID = "CartInDeckPrimaryKey"
+        val CART_IN_SINGLE_DECK = "CartInDeck"
+        val CART_IN_DECK_ID = "CartInDeckPrimaryKey"
         //Cart Id
         //Deck Id
 
@@ -59,7 +60,8 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
         val values = ContentValues()
         values.put(CART_ID, cart.id)
         values.put(CART_NAME, cart.name)
-        values.put(CART_SECOND_ID, cart.secondaryId)
+        values.put(CART_MANA_COST, cart.manaCost)
+        values.put(CART_DESCRIPTION, cart.cartText)
 
         db.insert(CART_TABLE, null, values)
         db.close()
@@ -78,7 +80,8 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
                     val cart = Cart()
                     cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
-                    cart.secondaryId = cursor.getString(cursor.getColumnIndex(CART_SECOND_ID))
+                    cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
+
 
                     lstCarts.add(cart)
                 } while (cursor.moveToNext())
@@ -93,7 +96,8 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
         val values = ContentValues()
         values.put(CART_ID, cart.id)
         values.put(CART_NAME, cart.name)
-        values.put(CART_SECOND_ID, cart.secondaryId)
+        values.put(CART_MANA_COST, cart.manaCost)
+        values.put(CART_DESCRIPTION, cart.cartText)
 
         db.insert(CART_TABLE, null, values)
         db.close()
@@ -104,7 +108,8 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
         val values = ContentValues()
         values.put(CART_ID, cart.id)
         values.put(CART_NAME, cart.name)
-        values.put(CART_SECOND_ID, cart.secondaryId)
+        values.put(CART_MANA_COST, cart.manaCost)
+        values.put(CART_DESCRIPTION, cart.cartText)
 
         return db.update(CART_TABLE, values, "$CART_ID=?", arrayOf(cart.id.toString()))
     }
@@ -173,10 +178,8 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(CART_ID, cartDeck.cartId)
-        //values.put(CART_NAME,cartDeck.cartName)
-        //values.put(CART_SECOND_ID,cartDeck.cartSecondaryId)
         values.put(DECK_ID, cartDeck.deckId)
-        //values.put(DECK_NAME,cartDeck.deckName)
+
 
         db.insert(CART_IN_SINGLE_DECK, null, values)
         db.close()
@@ -189,62 +192,15 @@ open class DBHelper (context: Context, actualDeck:String?):SQLiteOpenHelper(cont
             "$CART_IN_DECK_ID=?",
             arrayOf(cartDeck.cartDeckPrimaryId.toString())
         )
-        //db.delete(CART_IN_SINGLE_DECK,"$CART_ID=? AND $DECK_ID=?", arrayOf(cartDeck.cartId.toString(), cartDeck.deckId.toString()))
+
         db.close()
     }
 
-    private val displayedDeckId = actualDeck
-    val cartsInDeck: List<Cart>
-        get() {
-            val lstCartsInDeck = ArrayList<Cart>()
+    fun deleteSameCartsFromDeck(cartDeck: CartDeck){
+        val db = this.writableDatabase
+        db.delete(CART_IN_SINGLE_DECK,"$CART_ID=? AND $DECK_ID=?", arrayOf(cartDeck.cartId.toString(), cartDeck.deckId.toString()))
 
-            //val selectQuery = "SELECT $CART_ID, $CART_NAME, $CART_SECOND_ID, $DECK_NAME, $DECK_ID  FROM $CART_IN_SINGLE_DECK WHERE $DECK_ID = 1"
-
-            val selectQuery: String? =
-                "SELECT * FROM $CART_TABLE C INNER JOIN $CART_IN_SINGLE_DECK CD ON C.$CART_ID=CD.$CART_ID WHERE $DECK_ID = $displayedDeckId"
-            val db: SQLiteDatabase = this.writableDatabase
-            val cursor = db.rawQuery(selectQuery, null)
-            if (cursor.moveToFirst()) {
-                do {
-                    val cart = Cart()
-                    cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
-                    cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
-                    cart.secondaryId = cursor.getString(cursor.getColumnIndex(CART_SECOND_ID))
-                    //cartDeck.deckId = cursor.getInt(cursor.getColumnIndex(DECK_ID))
-
-                    lstCartsInDeck.add(cart)
-                } while (cursor.moveToNext())
-            }
-            db.close()
-            return lstCartsInDeck
-        }
-
-
-    val cartsInSingleDeck: List<CartDeck>
-        get() {
-            val lstCartsInSingleDeck = ArrayList<CartDeck>()
-
-            //val selectQuery = "SELECT $CART_ID, $CART_NAME, $CART_SECOND_ID, $DECK_NAME, $DECK_ID  FROM $CART_IN_SINGLE_DECK WHERE $DECK_ID = 1"
-
-            val selectQuery: String? =
-                "SELECT $CART_IN_DECK_ID FROM $CART_IN_SINGLE_DECK C INNER JOIN $CART_TABLE CD ON C.$CART_ID=CD.$CART_ID WHERE $DECK_ID = $displayedDeckId"
-            val db: SQLiteDatabase = this.writableDatabase
-            val cursor = db.rawQuery(selectQuery, null)
-
-            if (cursor.moveToFirst()) {
-
-                do {
-
-                    val cartDeck = CartDeck()
-                    cartDeck.cartDeckPrimaryId =
-                        cursor.getInt(cursor.getColumnIndex(CART_IN_DECK_ID))
-
-                    lstCartsInSingleDeck.add(cartDeck)
-                } while (cursor.moveToNext())
-            }
-            db.close()
-            return lstCartsInSingleDeck
-        }
-
+        db.close()
+    }
 
 }
