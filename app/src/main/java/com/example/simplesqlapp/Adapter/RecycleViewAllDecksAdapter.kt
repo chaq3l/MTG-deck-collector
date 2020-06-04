@@ -11,7 +11,7 @@ import com.example.simplesqlapp.Adapter.RecycleViewAllDecksAdapter.ExampleViewHo
 import com.example.simplesqlapp.Model.Deck
 import com.example.simplesqlapp.R
 
-class RecycleViewAllDecksAdapter(internal var activity: Activity, private val decksList: List<Deck>, cartId:Int,quantity: Int) : RecyclerView.Adapter<ExampleViewHolder>() {
+class RecycleViewAllDecksAdapter(internal var activity: Activity, private val decksList: List<Deck>) : RecyclerView.Adapter<ExampleViewHolder>() {
     private var deckListener: OnItemClickListener? = null
 
 

@@ -8,34 +8,36 @@
     tools:context=".SingleDeckContent">
 
     <TextView
-        android:id="@+id/txt_single_deck_id"
-        android:text="MLG 1337"
+        android:id="@+id/txt_single_deck_name"
+        android:text="Deck Id"
         android:textStyle="bold"
         android:textSize="40sp"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/cd_cart_id"
-        android:hint="Cart ID"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/cd_cart_name"
-        android:hint="Cart name"
-        android:inputType="text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/txt_second_parameter"
-        android:hint="Oracle cart id"
-        android:inputType="text"
+        <TextView
+            android:id="@+id/txt_single_deck_id"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Deck Id"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/button_to_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="To Main" />
+
+    </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView

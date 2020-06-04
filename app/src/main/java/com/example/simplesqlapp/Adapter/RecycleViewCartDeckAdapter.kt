@@ -12,8 +12,7 @@ import com.example.simplesqlapp.Model.Cart
 import com.example.simplesqlapp.Model.CartDeck
 import com.example.simplesqlapp.R
 
-class RecycleViewCartDeckAdapter(internal var activity: Activity, private val cartsInDeckList: List<Cart>, private val cartsInActualDeckList: List<CartDeck>, internal var cd_cart_id: TextView,
-                                 internal var cd_cart_name: TextView, internal var txt_second_parameter: TextView) : RecyclerView.Adapter<ExampleViewHolder>() {
+class RecycleViewCartDeckAdapter(internal var activity: Activity, private val cartsInDeckList: List<Cart>, private val cartsInActualDeckList: List<CartDeck>) : RecyclerView.Adapter<ExampleViewHolder>() {
     private var cartListener: OnItemClickListener? = null
 
 

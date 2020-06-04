@@ -23,17 +23,25 @@ class SingleDeckContent : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_single_deck_content)
-
-        val intent = intent
         val actualDisplayedDeckId = intent.getStringExtra("actualDeckId")
-        val actualDisplayedDeckIdInt:Int = Integer.parseInt(actualDisplayedDeckId)
-        val deckHeader = findViewById<TextView>(R.id.txt_single_deck_id)
-        deckHeader.text = "Deck Id: "+actualDisplayedDeckId
-
+        setContentView(R.layout.activity_single_deck_content)
         db = SingleDeckDBHelper(this, actualDisplayedDeckId)
+        val intent = intent
+
+        val actualDisplayedDeckIdInt:Int = Integer.parseInt(actualDisplayedDeckId)
+        val deckHeaderName = findViewById<TextView>(R.id.txt_single_deck_name)
+        deckHeaderName.text = db.allDecks[actualDisplayedDeckIdInt].name
+        val deckHeaderId = findViewById<TextView>(R.id.txt_single_deck_id)
+        deckHeaderId.text = "Deck Id: "+actualDisplayedDeckId
+
+
+
         refreshData(recyclerView, actualDisplayedDeckIdInt)
+
+        button_to_main.setOnClickListener{
+            val intent = Intent(this@SingleDeckContent, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun refreshData(mRecyclerView : RecyclerView, actualDisplayedDeckIdInt:Int) {
@@ -42,12 +50,12 @@ class SingleDeckContent : AppCompatActivity() {
         lstCartInDeck = db.cartsInDeck
         lstCartsInActualDeckList = db.cartsInSingleDeck
 
-        mRecyclerView.adapter = RecycleViewCartDeckAdapter(this@SingleDeckContent, lstCartInDeck, lstCartsInActualDeckList,  cd_cart_id, cd_cart_name, txt_second_parameter)
+        mRecyclerView.adapter = RecycleViewCartDeckAdapter(this@SingleDeckContent, lstCartInDeck, lstCartsInActualDeckList)
         mRecyclerView.layoutManager = cartsInDeckLayoutManager
 
         (mRecyclerView.adapter as RecycleViewCartDeckAdapter).setOnItemClickListener(object : RecycleViewCartDeckAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                showCart(position, "Clicked", mRecyclerView, actualDisplayedDeckIdInt)
+                showCart(position)
             }
 
             override fun onDeleteClick(position: Int) {
@@ -71,12 +79,11 @@ class SingleDeckContent : AppCompatActivity() {
         refreshData(mRecyclerView, actualDisplayedDeckIdInt)
     }
 
-    fun showCart(position: Int, text: String, mRecyclerView : RecyclerView, actualDisplayedDeckIdInt:Int) {
+    fun showCart(position: Int) {
 
         val rememberCartClicked:String = lstCartInDeck[position].id.toString()
         val intent2 = Intent(this@SingleDeckContent, SingleCartContent::class.java)
         intent2.putExtra("actualCartId", rememberCartClicked)
-        intent2.putExtra("actualDeckId", actualDisplayedDeckIdInt)
         startActivity(intent2)
         //refreshData(mRecyclerView, actualDisplayedDeckIdInt)
     }

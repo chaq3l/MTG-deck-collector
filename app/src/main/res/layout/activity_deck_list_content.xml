@@ -7,30 +7,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SingleDeckContent">
-
     <TextView
         android:id="@+id/txt_deck_list_header"
-        android:text="Add cart to deck"
-        android:textStyle="bold"
-        android:textSize="40sp"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txt_cart_name"
-        android:text="Cart name"
-        android:textStyle="bold"
-        android:textSize="20sp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:text="ADD OR DELETE CART FROM DECKS"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_cart_name"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Cart name"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_to_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="To Main" />
+
+    </LinearLayout>
+
+
+
+
+
+
 
     <TextView
         android:id="@+id/actual_cart_id"
-        android:hint="Cart Id"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:hint="Cart Id" />
 
 <!--    <EditText-->
 <!--        android:id="@+id/number_of_carts"-->
@@ -49,6 +69,8 @@
         android:background="@android:color/background_dark"
         android:padding="4dp"
         android:scrollbars="vertical" />
+
+
 
 
 </LinearLayout>

@@ -36,49 +36,43 @@
         android:layout_height="wrap_content"/>
 
 
-    <EditText
-        android:id="@+id/deck_id"
-        android:hint="Deck id"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:id="@+id/deck_name"
-        android:hint="Deck name"
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-
-
-
-    <ListView
-        android:id="@+id/cart_list"
-        android:layout_width="match_parent"
-        android:background="@color/cardview_shadow_start_color"
-        android:layout_height="183dp"
-        android:choiceMode="singleChoice" />
-
     <LinearLayout
         android:orientation="horizontal"
         android:weightSum="4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+       <Button
+           android:id="@+id/btn_add"
+           android:text="Add"
+           android:layout_weight="1"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"/>
+
         <Button
-            android:id="@+id/btn_carts"
-            android:text="Carts"
+            android:id="@+id/btn_update"
+            android:text="Update"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:id="@+id/btn_delete"
+            android:text="Delete"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/btn_add_cart_to_deck"
             android:text="Crt->Dck"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
-
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <Button
             android:id="@+id/btn_deck_menu"
             android:text="Decks"
@@ -87,20 +81,24 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btn_show_deck"
-            android:text="Dck Show"
+            android:id="@+id/btn_show_cart"
+            android:text="Cart Show"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
-
+        <Button
+            android:id="@+id/btn_readJSON"
+            android:text="Call JSON"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <ListView
-        android:id="@+id/deck_list"
-        android:background="@color/cardview_shadow_start_color"
-        android:choiceMode="singleChoice"
+        android:id="@+id/cart_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice" />
 
 
 </LinearLayout>

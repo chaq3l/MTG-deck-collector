@@ -24,6 +24,10 @@
         </activity>
         <activity android:name=".AddChosenCartToDeckContent">
         </activity>
+        <activity android:name=".DeckCreatorActivity">
+        </activity>
+        <activity android:name=".CartCreatorActivity">
+        </activity>
     </application>
 
 </manifest>
