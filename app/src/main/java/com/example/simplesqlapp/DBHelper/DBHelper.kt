@@ -15,9 +15,9 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_CART_TABLE_QUERY: String =
-            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT)")
+            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT, $CART_COLOR TEXT, $CART_COLOR_IDENTITY TEXT)")
         val CREATE_DECK_TABLE_QUERY: String =
-            ("CREATE TABLE $DECK_TABLE ($DECK_ID INTEGER PRIMARY KEY, $DECK_NAME TEXT NOT NULL)")
+            ("CREATE TABLE $DECK_TABLE ($DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $DECK_NAME TEXT NOT NULL)")
         val CREATE_CART_TO_DECK_TABLE: String =
             ("CREATE TABLE $CART_IN_SINGLE_DECK ($CART_IN_DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $CART_ID INT, $DECK_ID INT)")
         //val CREATE_CART_TO_DECK_TABLE : String =("CREATE TABLE $CART_IN_SINGLE_DECK ($CART_IN_DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $CART_ID INT, $CART_NAME INT, $CART_SECOND_ID TEXT, $DECK_ID INT, $DECK_NAME TEXT NOT NULL)")
@@ -25,7 +25,14 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         db!!.execSQL(CREATE_CART_TABLE_QUERY)
         db.execSQL(CREATE_DECK_TABLE_QUERY)
         db.execSQL(CREATE_CART_TO_DECK_TABLE)
+
+        val TRANSACTION : String = (
+                "UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = $DECK_TABLE"
+                )
+
+       // db.execSQL(TRANSACTION)
     }
+
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $CART_TABLE")
@@ -43,6 +50,8 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         val CART_NAME = "CartName"
         val CART_MANA_COST = "CartSecondaryId"
         val CART_DESCRIPTION = "CartText"
+        val CART_COLOR = "CartColors"
+        val CART_COLOR_IDENTITY = "CartColorIdentity"
 
         private val DECK_TABLE = "Deck"
         val DECK_ID = "DeckId"
@@ -62,6 +71,8 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         values.put(CART_NAME, cart.name)
         values.put(CART_MANA_COST, cart.manaCost)
         values.put(CART_DESCRIPTION, cart.cartText)
+        values.put(CART_COLOR, cart.cartColors)
+        values.put(CART_COLOR_IDENTITY, cart.cartColorIdentity)
 
         db.insert(CART_TABLE, null, values)
         db.close()
@@ -81,7 +92,9 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
                     cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
                     cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
-
+                    cart.cartColors = cursor.getString(cursor.getColumnIndex(CART_COLOR))
+                    cart.cartColorIdentity = cursor.getString(cursor.getColumnIndex(
+                        CART_COLOR_IDENTITY))
 
                     lstCarts.add(cart)
                 } while (cursor.moveToNext())
@@ -122,6 +135,29 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         db.close()
     }
 
+
+        private val allDecksMap2 : MutableMap<Int, Deck> = mutableMapOf()
+        val allDecksMap: MutableMap<Int, Deck>
+        get() {
+
+            val lstDecksMap = ArrayList<Deck>()
+            val selectQuery = "SELECT * FROM $DECK_TABLE"
+            val db: SQLiteDatabase = this.writableDatabase
+            val cursor = db.rawQuery(selectQuery, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val deck = Deck()
+                    deck.id = cursor.getInt(cursor.getColumnIndex(DECK_ID))
+                    deck.name = cursor.getString(cursor.getColumnIndex(DECK_NAME))
+                    allDecksMap2.put(deck.id, deck)
+                    lstDecksMap.add(deck)
+                } while (cursor.moveToNext())
+            }
+            db.close()
+            return allDecksMap2
+        }
+        //allDecks.put(deck.it, deck)
+        // można sprobować użycia val allDecks: MutableMap<Int, Deck>
 
     val allDecks: List<Deck>
         get() {

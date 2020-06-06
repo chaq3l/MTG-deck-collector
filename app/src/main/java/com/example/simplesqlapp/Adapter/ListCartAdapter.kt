@@ -26,6 +26,7 @@ class ListCartAdapter(internal var activity: Activity, internal var lstCart: Lis
         rowView.txt_unique_cart_id.text = lstCart[position].id.toString()
         rowView.txt_cart_name.text = lstCart[position].name.toString()
         rowView.txt_cart_id.text = lstCart[position].manaCost.toString()
+        rowView.txt_colors.text = lstCart[position].cartColors.toString()
 
         rowView.setOnClickListener{
             unique_cart_id.setText(rowView.txt_unique_cart_id.text.toString())

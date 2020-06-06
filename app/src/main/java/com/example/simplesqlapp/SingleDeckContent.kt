@@ -12,6 +12,7 @@ import com.example.simplesqlapp.Adapter.RecycleViewCartDeckAdapter
 import com.example.simplesqlapp.DBHelper.SingleDeckDBHelper
 import com.example.simplesqlapp.Model.Cart
 import com.example.simplesqlapp.Model.CartDeck
+import com.example.simplesqlapp.Model.Deck
 import kotlinx.android.synthetic.main.activity_single_deck_content.*
 
 class SingleDeckContent : AppCompatActivity() {
@@ -24,13 +25,15 @@ class SingleDeckContent : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val actualDisplayedDeckId = intent.getStringExtra("actualDeckId")
+//        val actualDisplayedDeckIdINT =Integer.parseInt(actualDisplayedDeckId1)-1
+//        val actualDisplayedDeckId = actualDisplayedDeckIdINT.toString()
         setContentView(R.layout.activity_single_deck_content)
         db = SingleDeckDBHelper(this, actualDisplayedDeckId)
         val intent = intent
 
         val actualDisplayedDeckIdInt:Int = Integer.parseInt(actualDisplayedDeckId)
         val deckHeaderName = findViewById<TextView>(R.id.txt_single_deck_name)
-        deckHeaderName.text = db.allDecks[actualDisplayedDeckIdInt].name
+        deckHeaderName.text = db.allDecksMap[actualDisplayedDeckIdInt]!!.name
         val deckHeaderId = findViewById<TextView>(R.id.txt_single_deck_id)
         deckHeaderId.text = "Deck Id: "+actualDisplayedDeckId
 

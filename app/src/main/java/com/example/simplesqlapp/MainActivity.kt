@@ -77,14 +77,14 @@ class MainActivity : AppCompatActivity() {
         val getCartPrimaryNumberInDeck:Int= 0
         btn_add_cart_to_deck.setOnClickListener {
             if (cart_id.text.toString()==""){}else{
-
-            val cartDeck = CartDeck(
-            getCartPrimaryNumberInDeck.inc(),
-            Integer.parseInt(cart_id.text.toString()),
-            Integer.parseInt(deck_id.text.toString())
+                if (deck_id.text.toString()==""){}else{
+                    val cartDeck = CartDeck(
+                        getCartPrimaryNumberInDeck.inc(),
+                        Integer.parseInt(cart_id.text.toString()),
+                        Integer.parseInt(deck_id.text.toString())
 
         )
-            db.addCartToDeck(cartDeck)}
+            db.addCartToDeck(cartDeck)}}
         }
 
         val actualDeck = findViewById<EditText>(R.id.deck_id)

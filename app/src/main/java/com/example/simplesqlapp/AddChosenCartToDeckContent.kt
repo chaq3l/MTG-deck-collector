@@ -22,6 +22,8 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
     private var decksLayoutManager: RecyclerView.LayoutManager? = null
     internal lateinit var db: DBHelper
     internal var lstDeck: List<Deck> = ArrayList<Deck>()
+    internal var lstDeckMap: MutableMap<Int, Deck> = mutableMapOf()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,7 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
         mRecyclerView.setHasFixedSize(true)
         decksLayoutManager = LinearLayoutManager(this)
         lstDeck = db.allDecks
+        lstDeckMap = db.allDecksMap
         //lstCartsInActualDeckList = db.cartsInSingleDeck
 
         mRecyclerView.adapter = RecycleViewAllDecksAdapter(this@AddChosenCartToDeckContent, lstDeck)
@@ -79,7 +82,7 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
             val cartDeck = CartDeck(
                0,
                 cartId,
-                lstDeck[position].id
+                lstDeckMap[position]!!.id
             )
             db.deleteSameCartsFromDeck(cartDeck)
 
@@ -88,20 +91,20 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
 
     fun addItem(position: Int, mRecyclerView: RecyclerView, cartId: Int, quantity:Int){
         val cartDeck = CartDeck(
-                0,
-        cartId,
-        lstDeck[position].id
+            0,
+            cartId,
+            lstDeckMap[position]!!.id
         )
-
-        for(i in 1..quantity){
         db.addCartToDeck(cartDeck)
-        }
+
         refreshData(mRecyclerView,cartId,quantity)
     }
 
+    //trzeba wykonać pokazanie deków z mapy a nie po id z RecycleViewera
+
     fun showDeck(position: Int) {
         val intent = Intent(this@AddChosenCartToDeckContent, SingleDeckContent::class.java)
-        intent.putExtra("actualDeckId", position.toString())
+        intent.putExtra("actualDeckId", lstDeckMap[position]!!.id.toString())
         startActivity(intent)
 
     }

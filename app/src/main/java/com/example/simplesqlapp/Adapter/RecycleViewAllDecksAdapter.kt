@@ -27,8 +27,8 @@ class RecycleViewAllDecksAdapter(internal var activity: Activity, private val de
 
     class ExampleViewHolder(itemView: View, listener: OnItemClickListener?) : RecyclerView.ViewHolder(itemView) {
         //var mImageView: ImageView
-        var deckId: TextView = itemView.findViewById(R.id.top_text_View)
-        var deckName: TextView = itemView.findViewById(R.id.lower_text_View)
+        var deckName: TextView = itemView.findViewById(R.id.top_text_View)
+        var deckId: TextView = itemView.findViewById(R.id.lower_text_View)
         var removeCartFromDeck: ImageView = itemView.findViewById(R.id.image_delete)
         var addCartToDeck: ImageView = itemView.findViewById(R.id.image_add)
 
@@ -39,7 +39,7 @@ class RecycleViewAllDecksAdapter(internal var activity: Activity, private val de
                 if (listener != null) {
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position)
+                        listener.onItemClick(Integer.parseInt(deckId.text.toString()))
                     }
                 }
             }
@@ -47,7 +47,7 @@ class RecycleViewAllDecksAdapter(internal var activity: Activity, private val de
                 if (listener != null) {
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onDeleteClick(position)
+                        listener.onDeleteClick(Integer.parseInt(deckId.text.toString()))
 
                     }
                 }
@@ -56,7 +56,7 @@ class RecycleViewAllDecksAdapter(internal var activity: Activity, private val de
                 if (listener != null) {
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
-                        listener.onAddClick(position)
+                        listener.onAddClick(Integer.parseInt(deckId.text.toString()))
 
                     }
                 }

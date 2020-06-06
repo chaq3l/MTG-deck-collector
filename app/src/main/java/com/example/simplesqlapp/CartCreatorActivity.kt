@@ -8,6 +8,7 @@ import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.simplesqlapp.Adapter.ListCartAdapter
 import com.example.simplesqlapp.DBHelper.DBHelper
@@ -56,6 +57,8 @@ class CartCreatorActivity : AppCompatActivity() {
                 Integer.parseInt(cart_id.text.toString()),
                 cart_name.text.toString(),
                 cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString(),
                 cart_mana_cost.text.toString()
             )
             db.addCart(cart)
@@ -68,6 +71,8 @@ class CartCreatorActivity : AppCompatActivity() {
                 Integer.parseInt(cart_id.text.toString()),
                 cart_name.text.toString(),
                 cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString(),
                 cart_mana_cost.text.toString()
             )
             db.updateCart(cart)
@@ -77,6 +82,8 @@ class CartCreatorActivity : AppCompatActivity() {
             val cart = Cart(
                 Integer.parseInt(cart_id.text.toString()),
                 cart_name.text.toString(),
+                cart_mana_cost.text.toString(),
+                cart_mana_cost.text.toString(),
                 cart_mana_cost.text.toString(),
                 cart_mana_cost.text.toString()
             )
@@ -90,6 +97,15 @@ class CartCreatorActivity : AppCompatActivity() {
 
 
 
+
+        btn_add_cart_to_deck.setOnClickListener {
+            val cartId = cart_id.text.toString()
+            if(cartId==""){}else{
+            val intent = Intent(this@CartCreatorActivity, AddChosenCartToDeckContent::class.java)
+            intent.putExtra( "actualCartId", cartId)
+            startActivity(intent)
+            }
+        }
 
 
 
@@ -160,7 +176,10 @@ class CartCreatorActivity : AppCompatActivity() {
                     i,
                     jsonObj.getString("name"),
                     jsonObj.getString("mana_cost"),
-                    jsonObj.getString("oracle_text")
+                    jsonObj.getString("oracle_text"),
+                    jsonObj.getString("colors"),
+                    jsonObj.getString("color_identity")
+
                 )
                 db.readDataFromJSON(cart)
             }

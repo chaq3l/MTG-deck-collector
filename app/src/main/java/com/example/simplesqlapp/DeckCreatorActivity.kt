@@ -37,16 +37,19 @@ class DeckCreatorActivity : AppCompatActivity() {
                 deck_name.text.toString()
             )
             db.updateDeck(deck)
+
             refreshData()
         }
 
 
         btn_add.setOnClickListener {
+
             val deck = Deck(
                 Integer.parseInt(deck_id.text.toString()),
                 deck_name.text.toString()
             )
             db.addDeck(deck)
+            sortDecks()
             refreshData()
         }
 
@@ -57,21 +60,16 @@ class DeckCreatorActivity : AppCompatActivity() {
                 deck_name.text.toString()
             )
             db.deleteDeck(deck)
+
             refreshData()
 
         }
-//        val getCartPrimaryNumberInDeck:Int= 0
-//        btn_add_cart_to_deck.setOnClickListener {
-//            if (cart_id.text.toString()==""){}else{
-//
-//            val cartDeck = CartDeck(
-//            getCartPrimaryNumberInDeck.inc(),
-//            Integer.parseInt(cart_id.text.toString()),
-//            Integer.parseInt(deck_id.text.toString())
-//
-//        )
-//            db.addCartToDeck(cartDeck)}
-//        }
+
+        btn_back_to_main.setOnClickListener {
+            val intent = Intent(this@DeckCreatorActivity, MainActivity::class.java)
+
+            startActivity(intent)
+        }
 
         val actualDeck = findViewById<EditText>(R.id.deck_id)
         btn_show_deck.setOnClickListener {
@@ -87,8 +85,24 @@ class DeckCreatorActivity : AppCompatActivity() {
         }
 
         btn_carts.setOnClickListener {
+            val intent = Intent(this@DeckCreatorActivity, CartCreatorActivity::class.java)
 
+            startActivity(intent)
         }
+    }
+
+    fun sortDecks() {
+        val deckList: List<Deck> = db.allDecks
+        val deckListSorted: List<Deck> = ArrayList<Deck>()
+        for (i in deckList.indices) {
+            val deck = Deck(
+                i,
+                deckList[i].name.toString()
+            )
+            deckListSorted.toMutableList().add(deck)
+        }
+
+
     }
 
 
