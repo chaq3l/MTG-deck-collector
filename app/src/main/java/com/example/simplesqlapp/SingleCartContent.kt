@@ -3,11 +3,12 @@ package com.example.simplesqlapp
 //import android.support.v7.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 //import android.support.v4.app.ActivityCompat
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import com.example.simplesqlapp.DBHelper.SingleCartDBHelper
-import kotlinx.android.synthetic.main.activity_main.btn_add_cart_to_deck
+
 
 //import org.json.JSONArray
 //import java.io.IOException
@@ -43,7 +44,9 @@ class SingleCartContent : AppCompatActivity() {
         val actualCartDescription = findViewById<TextView>(R.id.cart_description)
         actualCartDescription.text = actualCart.cartText
 
-        btn_add_cart_to_deck.setOnClickListener {
+        val addCartToDeckButton = findViewById<Button>(R.id.btn_add_cart_to_deck)
+
+        addCartToDeckButton.setOnClickListener {
 
             val intent = Intent(this@SingleCartContent, AddChosenCartToDeckContent::class.java)
             intent.putExtra( "actualCartId", actualDisplayedCart)

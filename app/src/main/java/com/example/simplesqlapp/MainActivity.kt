@@ -1,6 +1,7 @@
 package com.example.simplesqlapp
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 //import android.support.v7.app.AppCompatActivity
@@ -9,9 +10,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.simplesqlapp.Adapter.ListCartAdapter
 import com.example.simplesqlapp.Adapter.ListDeckAdapter
+import com.example.simplesqlapp.Adapter.MainActivityRecycleViewDecksAdapter
+import com.example.simplesqlapp.DBHelper.DBCartSearcher
 import com.example.simplesqlapp.DBHelper.DBHelper
 import com.example.simplesqlapp.Model.Cart
 import com.example.simplesqlapp.Model.CartDeck
@@ -41,8 +47,12 @@ class MainActivity : AppCompatActivity() {
 
 
     internal lateinit var db: DBHelper
-    internal var lstCart: List<Cart> = ArrayList<Cart>()
+    internal lateinit var dbSearcher : DBCartSearcher
+    private var decksLayoutManager: RecyclerView.LayoutManager? = null
     internal var lstDeck: List<Deck> = ArrayList<Deck>()
+    internal var lstFoundCart: List<Cart> = ArrayList<Cart>()
+    internal var lstDeckMap: MutableMap<Int, Deck> = mutableMapOf()
+
     val REQUEST_READ_EXTERNAL = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
 
         db = DBHelper(this)
-        refreshData()
+        refreshData(main_decks_recycler_view_list)
 
 
         btn_carts.setOnClickListener {
@@ -72,33 +82,52 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        image_search.setOnClickListener {
+
+            if (cart_name_input.text.toString()==""){
+
+                //nic nie wpisano
 
 
-        val getCartPrimaryNumberInDeck:Int= 0
-        btn_add_cart_to_deck.setOnClickListener {
-            if (cart_id.text.toString()==""){}else{
-                if (deck_id.text.toString()==""){}else{
-                    val cartDeck = CartDeck(
-                        getCartPrimaryNumberInDeck.inc(),
-                        Integer.parseInt(cart_id.text.toString()),
-                        Integer.parseInt(deck_id.text.toString())
+            }else{
+                val inputPhrase = cart_name_input.text.toString()
+                dbSearcher = DBCartSearcher(this, inputPhrase)
+                lstFoundCart = dbSearcher.searchedCartList
 
-        )
-            db.addCartToDeck(cartDeck)}}
-        }
+                if (lstFoundCart.isEmpty()){
+                    //no results, user need to find angain
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("No results")
+                    builder.setMessage("Please check if the correct data has been entered")
+                    builder.setNeutralButton("Ok") { _: DialogInterface?, _: Int ->  }
+                    builder.show()
 
-        val actualDeck = findViewById<EditText>(R.id.deck_id)
-        btn_show_deck.setOnClickListener {
-            val deck = actualDeck.text.toString()
-            if (deck == "") {
 
-            } else {
 
-                val intent = Intent(this@MainActivity, SingleDeckContent::class.java)
-                intent.putExtra("actualDeckId", deck)
-                startActivity(intent)
+                }else{
+                    if (lstFoundCart.size==1){
+                        //while found only one cart
+                        val cartId= lstFoundCart[0].id.toString()
+                        val intent = Intent(this@MainActivity, SingleCartContent::class.java)
+                        intent.putExtra("actualCartId", cartId)
+                        startActivity(intent)
+
+
+
+                    }else
+                    {
+                        //while found manny carts
+
+                        val intent = Intent(this@MainActivity, CartSearcher::class.java)
+                        intent.putExtra("searchingPhrase", inputPhrase)
+                        startActivity(intent)
+
+                    }
+                }
             }
         }
+
+
 
         //val chosenCart = findViewById<EditText>(R.id.cart_id)
         btn_deck_menu.setOnClickListener {
@@ -112,21 +141,64 @@ class MainActivity : AppCompatActivity() {
 
         //Event
 
-
-    private fun refreshData() {
-        lstCart = db.allCarts
-
-        val cartAdapter =
-            ListCartAdapter(this@MainActivity, lstCart, cart_id, cart_name, cart_mana_cost)
-        //30:00
-        cart_list.adapter = cartAdapter
+    private fun refreshData(mRecyclerView : RecyclerView) {
+        mRecyclerView.setHasFixedSize(true)
+        decksLayoutManager = LinearLayoutManager(this)
         lstDeck = db.allDecks
+        lstDeckMap = db.allDecksMap
 
-        val deckAdapter =
-            ListDeckAdapter(this@MainActivity, lstDeck, deck_id, deck_name)
-        //30:00
-        deck_list.adapter = deckAdapter
+
+        mRecyclerView.adapter = MainActivityRecycleViewDecksAdapter(this@MainActivity, lstDeck)
+        mRecyclerView.layoutManager = decksLayoutManager
+
+        (mRecyclerView.adapter as MainActivityRecycleViewDecksAdapter).setOnItemClickListener(object : MainActivityRecycleViewDecksAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                showDeck(position)
+            }
+
+            override fun onDeleteClick(position: Int) {
+                removeItem(position, mRecyclerView)
+            }
+        })
+
+
     }
+    fun removeItem(position: Int, mRecyclerView : RecyclerView) {
+
+        (mRecyclerView.adapter as MainActivityRecycleViewDecksAdapter).notifyItemRemoved(position)
+
+        val deck = lstDeckMap[position]!!.name?.let {
+            Deck(
+                lstDeckMap[position]!!.id,
+                it
+
+            )
+        }
+        if (deck != null) {
+            db.deleteDeck(deck)
+        }
+
+        refreshData(mRecyclerView)
+    }
+
+    fun showDeck(position: Int) {
+        val intent = Intent(this@MainActivity, SingleDeckContent::class.java)
+        intent.putExtra("actualDeckId", lstDeckMap[position]!!.id.toString())
+        startActivity(intent)
+    }
+
+
+//    private fun refreshData() {
+//        lstCart = db.allCarts
+//
+//
+//        lstDeck = db.allDecks
+//
+//        val deckAdapter =
+//            ListDeckAdapter(this@MainActivity, lstDeck, deck_id, deck_name)
+//        //30:00
+//        deck_list.adapter = deckAdapter
+//    }
 
 }
 

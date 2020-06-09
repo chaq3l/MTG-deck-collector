@@ -53,7 +53,7 @@ class SingleDeckContent : AppCompatActivity() {
         lstCartInDeck = db.cartsInDeck
         lstCartsInActualDeckList = db.cartsInSingleDeck
 
-        mRecyclerView.adapter = RecycleViewCartDeckAdapter(this@SingleDeckContent, lstCartInDeck, lstCartsInActualDeckList)
+        mRecyclerView.adapter = RecycleViewCartDeckAdapter(this@SingleDeckContent, lstCartInDeck)
         mRecyclerView.layoutManager = cartsInDeckLayoutManager
 
         (mRecyclerView.adapter as RecycleViewCartDeckAdapter).setOnItemClickListener(object : RecycleViewCartDeckAdapter.OnItemClickListener {

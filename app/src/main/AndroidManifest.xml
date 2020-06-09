@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".CartCreatorActivity">
         </activity>
+        <activity android:name=".CartSearcher">
+        </activity>
     </application>
 
 </manifest>

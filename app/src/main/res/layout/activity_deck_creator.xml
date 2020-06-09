@@ -71,7 +71,7 @@
 
         <Button
             android:id="@+id/btn_show_deck"
-            android:text="Dck Show"
+            android:text="Deck Show"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
@@ -81,7 +81,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Go back" />
+            android:text="To Main" />
     </LinearLayout>
 
     <ListView

@@ -4,21 +4,19 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.simplesqlapp.Adapter.RecycleViewCartDeckAdapter.ExampleViewHolder
+import com.example.simplesqlapp.Adapter.RecycleViewSearchCartAdapter.ExampleViewHolder
 import com.example.simplesqlapp.Model.Cart
-import com.example.simplesqlapp.Model.CartDeck
 import com.example.simplesqlapp.R
 
-class RecycleViewCartDeckAdapter(internal var activity: Activity, private val cartsInDeckList: List<Cart>) : RecyclerView.Adapter<ExampleViewHolder>() {
+class RecycleViewSearchCartAdapter(internal var activity: Activity, private val foundCarts: List<Cart>) : RecyclerView.Adapter<ExampleViewHolder>() {
     private var cartListener: OnItemClickListener? = null
 
 
     interface OnItemClickListener {
         fun onItemClick(position: Int)
-        fun onDeleteClick(position: Int)
+
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
@@ -29,7 +27,7 @@ class RecycleViewCartDeckAdapter(internal var activity: Activity, private val ca
         //var mImageView: ImageView
         var cartName: TextView = itemView.findViewById(R.id.top_text_View)
         var cartManaCost: TextView = itemView.findViewById(R.id.lower_text_View)
-        var removeCartFromDeck: ImageView = itemView.findViewById(R.id.image_delete)
+
 
         init {
            // mImageView = itemView.findViewById(R.id.imageView)
@@ -41,25 +39,16 @@ class RecycleViewCartDeckAdapter(internal var activity: Activity, private val ca
                     }
                 }
             }
-            removeCartFromDeck.setOnClickListener {
-                if (listener != null) {
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onDeleteClick(position)
-
-                    }
-                }
-            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.cart_in_deck_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.cart_in_cart_searcher_item, parent, false)
         return ExampleViewHolder(v, cartListener)
     }
 
     override fun onBindViewHolder(holder: ExampleViewHolder, position: Int) {
-        val currentItem = cartsInDeckList[position]
+        val currentItem = foundCarts[position]
         //val currentItem2 = cartsInActualDeckList[position]
         holder.cartName.text = currentItem.name
         holder.cartManaCost.text = currentItem.manaCost.toString()
@@ -68,7 +57,7 @@ class RecycleViewCartDeckAdapter(internal var activity: Activity, private val ca
     }
 
     override fun getItemCount(): Int {
-        return cartsInDeckList.size
+        return foundCarts.size
     }
 
 }

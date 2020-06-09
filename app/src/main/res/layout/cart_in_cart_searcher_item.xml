@@ -2,10 +2,12 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="4dp"
+    tools:ignore="MissingDefaultResource">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,14 +38,6 @@
             android:text="Line 2"
             android:textSize="15sp" />
 
-        <ImageView
-            android:id="@+id/image_delete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_red_x"
-            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 

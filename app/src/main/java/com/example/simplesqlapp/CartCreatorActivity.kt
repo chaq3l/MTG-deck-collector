@@ -52,75 +52,10 @@ class CartCreatorActivity : AppCompatActivity() {
         db = DBHelper(this)
         refreshData()
 
-        btn_add.setOnClickListener {
-            val cart = Cart(
-                Integer.parseInt(cart_id.text.toString()),
-                cart_name.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString()
-            )
-            db.addCart(cart)
-            refreshData()
-        }
-
-
-        btn_update.setOnClickListener {
-            val cart = Cart(
-                Integer.parseInt(cart_id.text.toString()),
-                cart_name.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString()
-            )
-            db.updateCart(cart)
-            refreshData()
-        }
-        btn_delete.setOnClickListener {
-            val cart = Cart(
-                Integer.parseInt(cart_id.text.toString()),
-                cart_name.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString(),
-                cart_mana_cost.text.toString()
-            )
-            db.deleteCart(cart)
-            refreshData()
-
-        }
         btn_readJSON.setOnClickListener {
             readFile()
         }
 
-
-
-
-        btn_add_cart_to_deck.setOnClickListener {
-            val cartId = cart_id.text.toString()
-            if(cartId==""){}else{
-            val intent = Intent(this@CartCreatorActivity, AddChosenCartToDeckContent::class.java)
-            intent.putExtra( "actualCartId", cartId)
-            startActivity(intent)
-            }
-        }
-
-
-
-//        val getCartPrimaryNumberInDeck:Int= 0
-//        btn_add_cart_to_deck.setOnClickListener {
-//            if (cart_id.text.toString()==""){}else{
-//
-//            val cartDeck = CartDeck(
-//            getCartPrimaryNumberInDeck.inc(),
-//            Integer.parseInt(cart_id.text.toString()),
-//            Integer.parseInt(deck_id.text.toString())
-//
-//        )
-//            db.addCartToDeck(cartDeck)}
-//        }
 
         val selectedCart = findViewById<EditText>(R.id.cart_id)
         btn_show_cart.setOnClickListener {
@@ -135,7 +70,7 @@ class CartCreatorActivity : AppCompatActivity() {
             }
         }
 
-        //val chosenCart = findViewById<EditText>(R.id.cart_id)
+
         btn_deck_menu.setOnClickListener {
             val intent2 = Intent(this@CartCreatorActivity, DeckCreatorActivity::class.java)
 
@@ -145,10 +80,7 @@ class CartCreatorActivity : AppCompatActivity() {
     }
 
 
-
-
         //Event
-
 
     private fun refreshData() {
         lstCart = db.allCarts
