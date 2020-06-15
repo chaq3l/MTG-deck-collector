@@ -8,7 +8,6 @@ import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.example.simplesqlapp.Adapter.ListCartAdapter
 import com.example.simplesqlapp.DBHelper.DBHelper
@@ -95,7 +94,7 @@ class CartCreatorActivity : AppCompatActivity() {
     private fun readFile() {
 
         try {
-            val inputStream: InputStream = assets.open("scryfall-default-cards — kopia.json")
+            val inputStream: InputStream = assets.open("")
            val json = inputStream.bufferedReader().use { it.readText() }
 
             var jsonarray = JSONArray(json)
@@ -110,7 +109,7 @@ class CartCreatorActivity : AppCompatActivity() {
                     jsonObj.getString("mana_cost"),
                     jsonObj.getString("oracle_text"),
                     jsonObj.getString("colors"),
-                    jsonObj.getString("color_identity")
+                    jsonObj.getString("image_uris")
 
                 )
                 db.readDataFromJSON(cart)

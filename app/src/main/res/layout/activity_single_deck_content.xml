@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/txt_single_deck_name"
-        android:text="Deck Id"
+        android:text="Deck name"
         android:textStyle="bold"
         android:textSize="40sp"
         android:layout_margin="10dp"
@@ -19,22 +19,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/txt_amount_of_carts_in_deck"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:text="Carts amount"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            tools:ignore="Suspicious0dp" />
 
         <TextView
             android:id="@+id/txt_single_deck_id"
-            android:layout_width="270dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="Deck Id"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="0sp"
+            android:textStyle="bold"
+            tools:ignore="Suspicious0dp" />
 
         <Button
             android:id="@+id/button_to_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="To Main" />
 
     </LinearLayout>

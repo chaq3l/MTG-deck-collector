@@ -15,7 +15,7 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_CART_TABLE_QUERY: String =
-            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT, $CART_COLOR TEXT, $CART_COLOR_IDENTITY TEXT)")
+            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT, $CART_COLOR TEXT, $CART_URI TEXT)")
         val CREATE_DECK_TABLE_QUERY: String =
             ("CREATE TABLE $DECK_TABLE ($DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $DECK_NAME TEXT NOT NULL)")
         val CREATE_CART_TO_DECK_TABLE: String =
@@ -48,10 +48,11 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         val CART_TABLE = "Cart"
         val CART_ID = "CartId"
         val CART_NAME = "CartName"
-        val CART_MANA_COST = "CartSecondaryId"
+        val CART_MANA_COST = "CartManaCost"
         val CART_DESCRIPTION = "CartText"
         val CART_COLOR = "CartColors"
-        val CART_COLOR_IDENTITY = "CartColorIdentity"
+        //val CART_COLOR_IDENTITY = "CartColorIdentity"
+        val CART_URI = "CartURI"
 
         private val DECK_TABLE = "Deck"
         val DECK_ID = "DeckId"
@@ -72,7 +73,7 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         values.put(CART_MANA_COST, cart.manaCost)
         values.put(CART_DESCRIPTION, cart.cartText)
         values.put(CART_COLOR, cart.cartColors)
-        values.put(CART_COLOR_IDENTITY, cart.cartColorIdentity)
+        //values.put(CART_COLOR_IDENTITY, cart.cartColorIdentity)
 
         db.insert(CART_TABLE, null, values)
         db.close()
@@ -80,6 +81,7 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
 
     //CRUD
+
     val allCarts: List<Cart>
         get() {
             val lstCarts = ArrayList<Cart>()
@@ -93,8 +95,8 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
                     cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
                     cart.cartColors = cursor.getString(cursor.getColumnIndex(CART_COLOR))
-                    cart.cartColorIdentity = cursor.getString(cursor.getColumnIndex(
-                        CART_COLOR_IDENTITY))
+                    //cart.cartColorIdentity = cursor.getString(cursor.getColumnIndex(
+                        //CART_COLOR_IDENTITY))
 
                     lstCarts.add(cart)
                 } while (cursor.moveToNext())
@@ -104,6 +106,28 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
         }
 
+
+    private val allCartsMapAgent : MutableMap<Int, Cart> = mutableMapOf()
+    val allCartsMap: MutableMap<Int, Cart>
+        get() {
+
+            val lstCartMap = ArrayList<Cart>()
+            val selectQuery = "SELECT * FROM $CART_TABLE"
+            val db: SQLiteDatabase = this.writableDatabase
+            val cursor = db.rawQuery(selectQuery, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val cart = Cart()
+                    cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
+                    cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
+                    allCartsMapAgent.put(cart.id, cart)
+                    lstCartMap.add(cart)
+                } while (cursor.moveToNext())
+            }
+            db.close()
+            return allCartsMapAgent
+        }
+
     fun addCart(cart: Cart) {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -111,6 +135,8 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         values.put(CART_NAME, cart.name)
         values.put(CART_MANA_COST, cart.manaCost)
         values.put(CART_DESCRIPTION, cart.cartText)
+        values.put(CART_COLOR, cart.cartColors)
+        values.put(CART_URI, cart.cartImageUris)
 
         db.insert(CART_TABLE, null, values)
         db.close()
@@ -135,30 +161,6 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
         db.close()
     }
 
-
-        private val allDecksMap2 : MutableMap<Int, Deck> = mutableMapOf()
-        val allDecksMap: MutableMap<Int, Deck>
-        get() {
-
-            val lstDecksMap = ArrayList<Deck>()
-            val selectQuery = "SELECT * FROM $DECK_TABLE"
-            val db: SQLiteDatabase = this.writableDatabase
-            val cursor = db.rawQuery(selectQuery, null)
-            if (cursor.moveToFirst()) {
-                do {
-                    val deck = Deck()
-                    deck.id = cursor.getInt(cursor.getColumnIndex(DECK_ID))
-                    deck.name = cursor.getString(cursor.getColumnIndex(DECK_NAME))
-                    allDecksMap2.put(deck.id, deck)
-                    lstDecksMap.add(deck)
-                } while (cursor.moveToNext())
-            }
-            db.close()
-            return allDecksMap2
-        }
-        //allDecks.put(deck.it, deck)
-        // można sprobować użycia val allDecks: MutableMap<Int, Deck>
-
     val allDecks: List<Deck>
         get() {
             val lstDecks = ArrayList<Deck>()
@@ -180,10 +182,33 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
         }
 
+    private val allDecksMapAgent : MutableMap<Int, Deck> = mutableMapOf()
+    val allDecksMap: MutableMap<Int, Deck>
+        get() {
+
+            val lstDecksMap = ArrayList<Deck>()
+            val selectQuery = "SELECT * FROM $DECK_TABLE"
+            val db: SQLiteDatabase = this.writableDatabase
+            val cursor = db.rawQuery(selectQuery, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val deck = Deck()
+                    deck.id = cursor.getInt(cursor.getColumnIndex(DECK_ID))
+                    deck.name = cursor.getString(cursor.getColumnIndex(DECK_NAME))
+                    allDecksMapAgent.put(deck.id, deck)
+                    lstDecksMap.add(deck)
+                } while (cursor.moveToNext())
+            }
+            db.close()
+            return allDecksMapAgent
+        }
+    //allDecks.put(deck.it, deck)
+    // można sprobować użycia val allDecks: MutableMap<Int, Deck>
+
     fun addDeck(deck: Deck) {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(DECK_ID, deck.id)
+        //values.put(DECK_ID, deck.id)
         values.put(DECK_NAME, deck.name)
 
 

@@ -36,6 +36,7 @@ class SingleCartContent : AppCompatActivity() {
         setContentView(R.layout.activity_single_cart_content)
         val actualDisplayedCart =  intent.getStringExtra("actualCartId")
 
+
         db = SingleCartDBHelper(this, Integer.parseInt(actualDisplayedCart))
         val actualCart = db.singleCart[0]
 

@@ -3,6 +3,9 @@
     package="com.example.simplesqlapp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_TO_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -29,6 +32,8 @@
         <activity android:name=".CartCreatorActivity">
         </activity>
         <activity android:name=".CartSearcher">
+        </activity>
+        <activity android:name=".CartHttpSearcher">
         </activity>
     </application>
 

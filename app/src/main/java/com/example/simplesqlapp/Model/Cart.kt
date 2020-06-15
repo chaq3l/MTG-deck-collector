@@ -9,17 +9,19 @@ class Cart {
     var manaCost:String?=null
     var cartText:String?=null
     var cartColors:String?=null
-    var cartColorIdentity:String?=null
+    var cartImageUris : String? = null
 
     constructor(){}
-    constructor(uniqueId:Int, name:String, manaCost:String,cartText:String, cartColors:String, cartColorIdentity:String){
+    constructor(
+        uniqueId:Int, name:String, manaCost:String,
+        cartText:String, cartColors: String, cartImageUris: String
+    ){
         this.id=uniqueId
         this.name=name
         //this.secondaryId=secondaryId
         this.manaCost=manaCost
         this.cartText=cartText
         this.cartColors=cartColors
-        this.cartColorIdentity=cartColorIdentity
-
+        this.cartImageUris= cartImageUris
     }
 }

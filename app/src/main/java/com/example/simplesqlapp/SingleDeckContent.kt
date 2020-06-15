@@ -2,17 +2,15 @@ package com.example.simplesqlapp
 
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplesqlapp.Adapter.RecycleViewCartDeckAdapter
-
 import com.example.simplesqlapp.DBHelper.SingleDeckDBHelper
 import com.example.simplesqlapp.Model.Cart
 import com.example.simplesqlapp.Model.CartDeck
-import com.example.simplesqlapp.Model.Deck
 import kotlinx.android.synthetic.main.activity_single_deck_content.*
 
 class SingleDeckContent : AppCompatActivity() {
@@ -47,6 +45,14 @@ class SingleDeckContent : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {  // After a pause OR at startup
+        super.onResume()
+
+        val actualDisplayedDeckId = intent.getStringExtra("actualDeckId")
+        val actualDisplayedDeckIdInt:Int = Integer.parseInt(actualDisplayedDeckId)
+        refreshData(recyclerView, actualDisplayedDeckIdInt)
+    }
+
     private fun refreshData(mRecyclerView : RecyclerView, actualDisplayedDeckIdInt:Int) {
         mRecyclerView.setHasFixedSize(true)
         cartsInDeckLayoutManager = LinearLayoutManager(this)
@@ -55,6 +61,8 @@ class SingleDeckContent : AppCompatActivity() {
 
         mRecyclerView.adapter = RecycleViewCartDeckAdapter(this@SingleDeckContent, lstCartInDeck)
         mRecyclerView.layoutManager = cartsInDeckLayoutManager
+
+        txt_amount_of_carts_in_deck.text = "Number of cards in the deck: "+ lstCartInDeck.size.toString()
 
         (mRecyclerView.adapter as RecycleViewCartDeckAdapter).setOnItemClickListener(object : RecycleViewCartDeckAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {

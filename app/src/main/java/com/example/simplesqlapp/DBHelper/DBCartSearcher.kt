@@ -15,7 +15,7 @@ class DBCartSearcher (context: Context, searchedPhrase: String?):DBHelper(contex
     val searchedCartList: List<Cart>
         get() {
             val foundCart = ArrayList<Cart>()
-            val selectQuery = "SELECT * FROM $CART_TABLE WHERE $CART_NAME LIKE '%$searchedPhrase%'"
+            val selectQuery = "SELECT * FROM $CART_TABLE WHERE $CART_NAME LIKE '$searchedPhrase'"
             val db: SQLiteDatabase = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
             if (cursor.moveToFirst()) {

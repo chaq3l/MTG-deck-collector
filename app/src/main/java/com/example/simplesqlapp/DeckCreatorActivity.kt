@@ -45,7 +45,7 @@ class DeckCreatorActivity : AppCompatActivity() {
         btn_add.setOnClickListener {
 
             val deck = Deck(
-                Integer.parseInt(deck_id.text.toString()),
+                0,
                 deck_name.text.toString()
             )
             db.addDeck(deck)
