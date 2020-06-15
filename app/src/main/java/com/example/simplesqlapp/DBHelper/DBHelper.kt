@@ -95,8 +95,8 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
                     cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
                     cart.cartColors = cursor.getString(cursor.getColumnIndex(CART_COLOR))
-                    //cart.cartColorIdentity = cursor.getString(cursor.getColumnIndex(
-                        //CART_COLOR_IDENTITY))
+                    cart.cartImageUris = cursor.getString(cursor.getColumnIndex(
+                        CART_URI))
 
                     lstCarts.add(cart)
                 } while (cursor.moveToNext())

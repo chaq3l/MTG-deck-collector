@@ -40,25 +40,25 @@
 <!--        android:hint="Cart name"-->
 <!--        android:inputType="text"-->
 <!--        android:layout_width="match_parent"-->
+
 <!--        android:layout_height="wrap_content"/>-->
 
 
     <ImageView
         android:id="@+id/cart_image"
         android:layout_width="match_parent"
-        android:layout_height="274dp"
+        android:layout_height="597dp"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher_foreground" />
-
+        android:src="@mipmap/ic_2xclick_foreground" />
 
     <TextView
         android:id="@+id/cart_description"
         android:layout_width="match_parent"
-        android:layout_height="364dp"
+        android:layout_height="wrap_content"
         android:choiceMode="singleChoice"
         android:hint="" />
 
-        <TextView
+    <TextView
             android:id="@+id/cart_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

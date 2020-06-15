@@ -25,6 +25,7 @@ class SingleCartDBHelper (context: Context, actualCart: Int?):DBHelper(context) 
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
                     cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
                     cart.cartText = cursor.getString(cursor.getColumnIndex(CART_DESCRIPTION))
+                    cart.cartImageUris = cursor.getString(cursor.getColumnIndex(CART_URI))
 
                     singleCart.add(cart)
                 } while (cursor.moveToNext())
