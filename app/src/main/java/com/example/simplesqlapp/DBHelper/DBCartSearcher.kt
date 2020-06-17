@@ -21,7 +21,8 @@ class DBCartSearcher (context: Context, searchedPhrase: String?):DBHelper(contex
             if (cursor.moveToFirst()) {
                 do {
                     val cart = Cart()
-                    cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
+                    cart.cardDbId = cursor.getInt(cursor.getColumnIndex(CARD_DB_ID))
+                    cart.id = cursor.getString(cursor.getColumnIndex(CART_ID))
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
                     cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
                     cart.cartText = cursor.getString(cursor.getColumnIndex(CART_DESCRIPTION))

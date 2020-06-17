@@ -64,7 +64,7 @@ class CartSearcher : AppCompatActivity() {
                 }else{
                     if (lstFoundCart.size==1){
                         //while found only one cart
-                        val cartId= lstFoundCart[0].id.toString()
+                        val cartId= lstFoundCart[0].cardDbId.toString()
                         val intent = Intent(this@CartSearcher, SingleCartContent::class.java)
                         intent.putExtra("actualCartId", cartId)
                         startActivity(intent)
@@ -106,7 +106,7 @@ class CartSearcher : AppCompatActivity() {
 
     fun showCart(position: Int) {
 
-        val rememberCartClicked:String = lstFoundCart[position].id.toString()
+        val rememberCartClicked:String = lstFoundCart[position].cardDbId.toString()
         val intent2 = Intent(this@CartSearcher, SingleCartContent::class.java)
         intent2.putExtra("actualCartId", rememberCartClicked)
         startActivity(intent2)

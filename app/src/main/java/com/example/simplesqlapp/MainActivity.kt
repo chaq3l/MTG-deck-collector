@@ -9,9 +9,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplesqlapp.Adapter.MainActivityRecycleViewDecksAdapter
@@ -55,64 +57,93 @@ class MainActivity : AppCompatActivity() {
     internal var lstDeckMap: MutableMap<Int, Deck> = mutableMapOf()
 
     val REQUEST_READ_EXTERNAL = 1
+    val INTERNET = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
+            != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(
                 this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                 REQUEST_READ_EXTERNAL
             )
 
-        } else {
-            //???
-        }
+        } else{
 
-
-        db = DBHelper(this)
-        refreshData(main_decks_recycler_view_list)
-
-//        download_json.setOnClickListener{
-//            download()
-//        }
-
-
-        btn_carts.setOnClickListener {
-            val intent = Intent(this@MainActivity, CartCreatorActivity::class.java)
-
-            startActivity(intent)
-        }
-
-        image_search.setOnClickListener {
-            //searchHttpsRequest(cart_name_input.text.toString(), this)
-            if (cart_name_input.text.toString()==""){
-
-                //nic nie wpisano
-
-
-            }else{
-                //recView.layoutManager = LinearLayoutManager(this)
-                searchHttpsRequest(cart_name_input.text.toString(),this)
-
-
-
-            }
         }
 
 
 
-        //val chosenCart = findViewById<EditText>(R.id.cart_id)
-        btn_deck_menu.setOnClickListener {
-            val intent2 = Intent(this@MainActivity, DeckCreatorActivity::class.java)
+            db = DBHelper(this)
+            refreshData(main_decks_recycler_view_list)
 
-            startActivity(intent2)
-        }
+
+                btn_carts.setOnClickListener {
+                    val intent = Intent(this@MainActivity, CartCreatorActivity::class.java)
+
+                    startActivity(intent)
+                }
+
+                image_search.setOnClickListener {
+
+                    if (cart_name_input.text.toString()==""){
+                        //nic nie wpisano
+
+                    }else{
+                        //recView.layoutManager = LinearLayoutManager(this)
+                        searchHttpsRequest(cart_name_input.text.toString(),this)
+                    }
+
+
+                    //uwaga na sprawdzanie permissionów, nie jest to jeszcze do końca sprawne
+
+//                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)==PackageManager.PERMISSION_GRANTED){
+//
+//                    }else{
+//                        requestStoragePermission();
+//                    }
+
+
+                }
+
+
+
+                //val chosenCart = findViewById<EditText>(R.id.cart_id)
+                btn_deck_menu.setOnClickListener {
+                    val intent2 = Intent(this@MainActivity, DeckCreatorActivity::class.java)
+
+                    startActivity(intent2)
+                }
+
+
+
+
 
     }
+
+    private fun requestStoragePermission() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+
+            AlertDialog.Builder(this)
+                .setTitle("Permission")
+                .setMessage("This application need permission for downloading data")
+                .setNegativeButton("Cancel") { _, _ ->
+                    Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show()
+                }
+
+                .setNegativeButton("OK") { _, _ ->
+                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+                }
+                .show()
+
+        }else{
+            ActivityCompat.requestPermissions(this,  Array<String>(1){Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_READ_EXTERNAL)
+        }
+    }
+
 
 
     override fun onResume() {  // After a pause OR at startup

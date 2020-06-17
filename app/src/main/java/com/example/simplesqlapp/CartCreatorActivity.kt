@@ -104,7 +104,7 @@ class CartCreatorActivity : AppCompatActivity() {
                 var jsonObj = jsonarray.getJSONObject(i)
                 val cart = Cart(
                     //Integer.parseInt(jsonObj.getString("id")),
-                    i,
+                    "",
                     jsonObj.getString("name"),
                     jsonObj.getString("mana_cost"),
                     jsonObj.getString("oracle_text"),

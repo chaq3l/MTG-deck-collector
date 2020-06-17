@@ -3,6 +3,7 @@ package com.example.simplesqlapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +43,7 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
 
         val header = findViewById<TextView>(R.id.actual_cart_id)
         header.text = "Cart Id: "+actualDisplayedCart
+        Log.d("Cart Id", actualDisplayedCart)
         val cartName = findViewById<TextView>(R.id.txt_cart_name)
 
         cartName.text = db.allCartsMap[Integer.parseInt(actualDisplayedCart)]!!.name

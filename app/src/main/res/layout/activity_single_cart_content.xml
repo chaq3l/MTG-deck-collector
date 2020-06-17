@@ -23,7 +23,7 @@
             android:id="@+id/cart_title"
             android:layout_width="322dp"
             android:layout_height="match_parent"
-            android:hint="CART TITLE"
+            android:hint="CARD TITLE"
             android:textSize="25sp"
             android:textStyle="bold" />
 

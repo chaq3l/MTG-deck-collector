@@ -83,7 +83,7 @@
 
         <Button
             android:id="@+id/btn_carts"
-            android:text="All Carts"
+            android:text="Used Cards"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>

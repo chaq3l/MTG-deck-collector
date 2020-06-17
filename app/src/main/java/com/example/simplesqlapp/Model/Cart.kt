@@ -1,7 +1,8 @@
 package com.example.simplesqlapp.Model
 
 class Cart {
-    var id:Int=0
+    var cardDbId:Int=0
+    var id:String?=null
     //var id:String?=null
     var name:String?=null
     //var secondaryId:String?=null
@@ -13,7 +14,7 @@ class Cart {
 
     constructor(){}
     constructor(
-        uniqueId:Int, name:String, manaCost:String,
+        uniqueId:String, name:String, manaCost:String,
         cartText:String, cartColors: String, cartImageUris: String
     ){
         this.id=uniqueId

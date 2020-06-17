@@ -15,11 +15,11 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_CART_TABLE_QUERY: String =
-            ("CREATE TABLE $CART_TABLE ($CART_ID INTEGER PRIMARY KEY, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT, $CART_COLOR TEXT, $CART_URI TEXT)")
+            ("CREATE TABLE $CART_TABLE ($CARD_DB_ID INTEGER PRIMARY KEY AUTOINCREMENT, $CART_ID TEXT, $CART_NAME TEXT NOT NULL, $CART_MANA_COST TEXT, $CART_DESCRIPTION TEXT, $CART_COLOR TEXT, $CART_URI TEXT)")
         val CREATE_DECK_TABLE_QUERY: String =
             ("CREATE TABLE $DECK_TABLE ($DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $DECK_NAME TEXT NOT NULL)")
         val CREATE_CART_TO_DECK_TABLE: String =
-            ("CREATE TABLE $CART_IN_SINGLE_DECK ($CART_IN_DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $CART_ID INT, $DECK_ID INT)")
+            ("CREATE TABLE $CART_IN_SINGLE_DECK ($CART_IN_DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $CARD_DB_ID INT, $DECK_ID INT)")
         //val CREATE_CART_TO_DECK_TABLE : String =("CREATE TABLE $CART_IN_SINGLE_DECK ($CART_IN_DECK_ID INTEGER PRIMARY KEY AUTOINCREMENT, $CART_ID INT, $CART_NAME INT, $CART_SECOND_ID TEXT, $DECK_ID INT, $DECK_NAME TEXT NOT NULL)")
         //val CREATE_TABLE_QUERY = ("CREATE TABLE "+ TABLE_NAME + " (" +COL_ID +" INT PRIMARY KEY, " + COL_NAME + " TEXT, " + COL_SECOND_ID + " INT)")
         db!!.execSQL(CREATE_CART_TABLE_QUERY)
@@ -46,6 +46,7 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
         //Table
         val CART_TABLE = "Cart"
+        val CARD_DB_ID = "CartDbId"
         val CART_ID = "CartId"
         val CART_NAME = "CartName"
         val CART_MANA_COST = "CartManaCost"
@@ -91,7 +92,8 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
             if (cursor.moveToFirst()) {
                 do {
                     val cart = Cart()
-                    cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
+                    cart.cardDbId = cursor.getInt(cursor.getColumnIndex(CARD_DB_ID))
+                    cart.id = cursor.getString(cursor.getColumnIndex(CART_ID))
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
                     cart.manaCost = cursor.getString(cursor.getColumnIndex(CART_MANA_COST))
                     cart.cartColors = cursor.getString(cursor.getColumnIndex(CART_COLOR))
@@ -118,9 +120,10 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
             if (cursor.moveToFirst()) {
                 do {
                     val cart = Cart()
-                    cart.id = cursor.getInt(cursor.getColumnIndex(CART_ID))
+                    cart.cardDbId = cursor.getInt(cursor.getColumnIndex(CARD_DB_ID))
+                    cart.id = cursor.getString(cursor.getColumnIndex(CART_ID))
                     cart.name = cursor.getString(cursor.getColumnIndex(CART_NAME))
-                    allCartsMapAgent.put(cart.id, cart)
+                    allCartsMapAgent[cart.cardDbId] = cart
                     lstCartMap.add(cart)
                 } while (cursor.moveToNext())
             }
@@ -238,7 +241,7 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
     fun addCartToDeck(cartDeck: CartDeck) {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(CART_ID, cartDeck.cartId)
+        values.put(CARD_DB_ID, cartDeck.cartId)
         values.put(DECK_ID, cartDeck.deckId)
 
 
@@ -259,7 +262,7 @@ open class DBHelper (context: Context):SQLiteOpenHelper(context,DATABASE_NAME,nu
 
     fun deleteSameCartsFromDeck(cartDeck: CartDeck){
         val db = this.writableDatabase
-        db.delete(CART_IN_SINGLE_DECK,"$CART_ID=? AND $DECK_ID=?", arrayOf(cartDeck.cartId.toString(), cartDeck.deckId.toString()))
+        db.delete(CART_IN_SINGLE_DECK,"$CARD_DB_ID=? AND $DECK_ID=?", arrayOf(cartDeck.cartId.toString(), cartDeck.deckId.toString()))
 
         db.close()
     }

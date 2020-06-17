@@ -26,7 +26,7 @@
             android:id="@+id/txt_amount_of_carts_in_deck"
             android:layout_width="270dp"
             android:layout_height="wrap_content"
-            android:text="Carts amount"
+            android:text="Cards amount"
             android:textSize="25sp"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"

@@ -16,14 +16,14 @@ class DBSingleTypeCartAmountFromDeckGetter (context: Context, cartId: Int, deckI
     val searchedCartList: List<CartDeck>
         get() {
             val foundCarts = ArrayList<CartDeck>()
-            val selectQuery = "SELECT * FROM $CART_IN_SINGLE_DECK WHERE $CART_ID = $cartId AND $DECK_ID = $deckId"
+            val selectQuery = "SELECT * FROM $CART_IN_SINGLE_DECK WHERE $CARD_DB_ID = $cartId AND $DECK_ID = $deckId"
             val db: SQLiteDatabase = this.writableDatabase
             val cursor = db.rawQuery(selectQuery, null)
             if (cursor.moveToFirst()) {
                 do {
                     val cartDeck = CartDeck()
                     0
-                    cartDeck.cartId = cursor.getInt(cursor.getColumnIndex(CART_ID))
+                    cartDeck.cartId = cursor.getInt(cursor.getColumnIndex(CARD_DB_ID))
                     cartDeck.deckId = cursor.getInt(cursor.getColumnIndex(DECK_ID))
 
 

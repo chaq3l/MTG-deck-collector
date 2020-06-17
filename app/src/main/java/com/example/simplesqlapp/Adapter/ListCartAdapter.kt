@@ -23,7 +23,7 @@ class ListCartAdapter(internal var activity: Activity, internal var lstCart: Lis
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
        val rowView: View
         rowView = inflater.inflate(R.layout.row_layout,null)
-        rowView.txt_unique_cart_id.text = lstCart[position].id.toString()
+        rowView.txt_unique_cart_id.text = lstCart[position].cardDbId.toString()
         rowView.txt_cart_name.text = lstCart[position].name.toString()
         rowView.txt_cart_id.text = lstCart[position].manaCost.toString()
         rowView.txt_colors.text = lstCart[position].cartColors.toString()
@@ -42,7 +42,7 @@ class ListCartAdapter(internal var activity: Activity, internal var lstCart: Lis
     }
 
     override fun getItemId(position: Int): Long {
-        return lstCart[position].id.toLong()
+        return lstCart[position].cardDbId.toLong()
     }
 
     override fun getCount(): Int {

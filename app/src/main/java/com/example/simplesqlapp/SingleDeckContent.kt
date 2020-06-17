@@ -82,7 +82,7 @@ class SingleDeckContent : AppCompatActivity() {
 
             val cartDeck = CartDeck(
                 lstCartsInActualDeckList[position].cartDeckPrimaryId,
-                lstCartInDeck[position].id,
+                lstCartInDeck[position].cardDbId,
                 actualDisplayedDeckIdInt
             )
             db.deleteCartDeck(cartDeck)
@@ -92,7 +92,7 @@ class SingleDeckContent : AppCompatActivity() {
 
     fun showCart(position: Int) {
 
-        val rememberCartClicked:String = lstCartInDeck[position].id.toString()
+        val rememberCartClicked:String = lstCartInDeck[position].cardDbId.toString()
         val intent2 = Intent(this@SingleDeckContent, SingleCartContent::class.java)
         intent2.putExtra("actualCartId", rememberCartClicked)
         startActivity(intent2)

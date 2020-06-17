@@ -229,7 +229,7 @@ class CartHttpSearcher : AppCompatActivity() {
                         Log.d("gsonImageUri", ImageUri)
 
                         val cart = Cart(
-                            response.mtgo_id,
+                            response.oracle_id,
                             response.name,
                             response.mana_cost,
                             response.oracle_text,
@@ -240,7 +240,7 @@ class CartHttpSearcher : AppCompatActivity() {
                         db.addCart(cart)
 
                         lstFoundCart = db.searchedCartList
-                        val cartId= lstFoundCart[0].id.toString()
+                        val cartId= lstFoundCart[0].cardDbId.toString()
                         val intent = Intent(this@CartHttpSearcher, SingleCartContent::class.java)
                         intent.putExtra("actualCartId", cartId)
                         startActivity(intent)
@@ -249,7 +249,7 @@ class CartHttpSearcher : AppCompatActivity() {
                     } else {
                         if (lstFoundCart.size == 1) {
                             //while found only one cart
-                            val cartId = lstFoundCart[0].id.toString()
+                            val cartId = lstFoundCart[0].cardDbId.toString()
                             val intent =
                                 Intent(this@CartHttpSearcher, SingleCartContent::class.java)
                             intent.putExtra("actualCartId", cartId)

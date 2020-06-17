@@ -16,14 +16,14 @@
     
     <EditText
         android:id="@+id/cart_id"
-        android:hint="Cart ID"
+        android:hint="Card ID"
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/cart_name"
-        android:hint="Cart name"
+        android:hint="Card name"
         android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

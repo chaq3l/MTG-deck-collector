@@ -42,7 +42,7 @@ class ListCartDeckAdapter(internal var activity: Activity, internal var lstCartD
     }
 
     override fun getItemId(position: Int): Long {
-        return lstCartDeck[position].id.toLong()
+        return lstCartDeck[position].cardDbId.toLong()
     }
 
     override fun getCount(): Int {
