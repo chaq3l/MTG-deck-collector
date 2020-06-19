@@ -51,9 +51,9 @@ class CartCreatorActivity : AppCompatActivity() {
         db = DBHelper(this)
         refreshData()
 
-        btn_readJSON.setOnClickListener {
-            readFile()
-        }
+//        btn_readJSON.setOnClickListener {
+//            readFile()
+//        }
 
 
         val selectedCart = findViewById<EditText>(R.id.cart_id)

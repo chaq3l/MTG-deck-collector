@@ -28,6 +28,9 @@ import com.google.gson.GsonBuilder
 import okhttp3.*
 import com.example.simplesqlapp.Adapter.ScryfallResponseAutocomplete
 import org.json.JSONArray
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import java.io.InputStream
 
 //import org.json.JSONArray
@@ -36,7 +39,7 @@ import java.io.InputStream
 //import android.widget.ArrayAdapter
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     //28:00
 
 //    override fun onRequestPermissionsResult(
@@ -56,24 +59,24 @@ class MainActivity : AppCompatActivity() {
     internal var lstFoundCart: List<Cart> = ArrayList<Cart>()
     internal var lstDeckMap: MutableMap<Int, Deck> = mutableMapOf()
 
-    val REQUEST_READ_EXTERNAL = 1
-    val INTERNET = 1
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(
-                this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                REQUEST_READ_EXTERNAL
-            )
-
-        } else{
-
-        }
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+//            != PackageManager.PERMISSION_GRANTED) {
+//
+//            ActivityCompat.requestPermissions(
+//                this, arrayOf(Manifest.permission.INTERNET),
+//                INTERNET_PERMISSION_CODE
+//            )
+//
+//        } else{
+//
+//        }
 
 
 
@@ -87,28 +90,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-                image_search.setOnClickListener {
-
-                    if (cart_name_input.text.toString()==""){
-                        //nic nie wpisano
-
-                    }else{
-                        //recView.layoutManager = LinearLayoutManager(this)
-                        searchHttpsRequest(cart_name_input.text.toString(),this)
-                    }
-
-
-                    //uwaga na sprawdzanie permissionów, nie jest to jeszcze do końca sprawne
-
-//                    if(ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)==PackageManager.PERMISSION_GRANTED){
-//
-//                    }else{
-//                        requestStoragePermission();
-//                    }
-
-
-                }
-
+        image_search.setOnClickListener { searchCards() }
 
 
                 //val chosenCart = findViewById<EditText>(R.id.cart_id)
@@ -119,31 +101,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
-
-
-
     }
-
-    private fun requestStoragePermission() {
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-
-            AlertDialog.Builder(this)
-                .setTitle("Permission")
-                .setMessage("This application need permission for downloading data")
-                .setNegativeButton("Cancel") { _, _ ->
-                    Toast.makeText(this, "Cancel", Toast.LENGTH_SHORT).show()
-                }
-
-                .setNegativeButton("OK") { _, _ ->
-                    Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
-                }
-                .show()
-
-        }else{
-            ActivityCompat.requestPermissions(this,  Array<String>(1){Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_READ_EXTERNAL)
-        }
-    }
-
 
 
     override fun onResume() {  // After a pause OR at startup
@@ -151,6 +109,106 @@ class MainActivity : AppCompatActivity() {
 
         refreshData(main_decks_recycler_view_list)
     }
+
+
+    @AfterPermissionGranted(123)
+    private fun searchCards() {
+        val perms = arrayOf(Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (EasyPermissions.hasPermissions(this, *perms)) {
+
+
+            if (cart_name_input.text.toString()==""){
+                //nic nie wpisano
+
+            }else{
+                //recView.layoutManager = LinearLayoutManager(this)
+                searchHttpsRequest(cart_name_input.text.toString(),this)
+            }
+
+
+        } else {
+            EasyPermissions.requestPermissions(
+                this, "Need permissions to search cards",
+                123, *perms
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsGranted(
+        requestCode: Int,
+        perms: List<String>
+    ) {
+    }
+
+    override fun onPermissionsDenied(
+        requestCode: Int,
+        perms: List<String>
+    ) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+        }
+    }
+
+
+
+
+//    private fun requestInternetPermission() {
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(
+//                this,
+//                Manifest.permission.INTERNET
+//            )
+//        ) {
+//            AlertDialog.Builder(this)
+//                .setTitle("Permission needed")
+//                .setMessage("This permission is needed because of this and that")
+//                .setPositiveButton("ok") { _, _ ->
+//                    ActivityCompat.requestPermissions(
+//                        this@Permission,
+//                        arrayOf(Manifest.permission.INTERNET),
+//                        INTERNET_PERMISSION_CODE
+//                    )
+//                }
+//                .setNegativeButton("cancel") { dialog, _ -> dialog.dismiss() }
+//                .create().show()
+//        } else {
+//            ActivityCompat.requestPermissions(
+//                this,
+//                arrayOf(Manifest.permission.INTERNET),
+//                INTERNET_PERMISSION_CODE
+//            )
+//        }
+//    }
+//
+//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+//        if (requestCode == INTERNET_PERMISSION_CODE) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(this, "Permission GRANTED", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(this, "Permission DENIED", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    } //okazuje się, że dla internetu nie trzeba permissionów - dlatego powyższe funkcje nie działały....
+
+
 
 
         //Event

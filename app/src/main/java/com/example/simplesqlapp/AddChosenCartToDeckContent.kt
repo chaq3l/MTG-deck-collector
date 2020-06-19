@@ -108,7 +108,7 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
             )
             db.deleteSameCartsFromDeck(cartDeck)
 
-        Toast.makeText(this@AddChosenCartToDeckContent, "All "+ lstCartMap[cartId]!!.name.toString() + " carts has been removed from this deck", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@AddChosenCartToDeckContent, "All "+ lstCartMap[cartId]!!.name.toString() + " cards has been removed from this deck", Toast.LENGTH_SHORT).show()
 
         refreshData(mRecyclerView,cartId,quantity)
     }
@@ -123,7 +123,7 @@ class AddChosenCartToDeckContent : AppCompatActivity() {
         dbSingleCartGetter = DBSingleTypeCartAmountFromDeckGetter(this, cartId, lstDeckMap[position]!!.id)
         CartAmountInSingleDeckGetter = dbSingleCartGetter.searchedCartList
         val actualAmountOfSingleTypeCartInSingleDeck = CartAmountInSingleDeckGetter.size
-        Toast.makeText(this@AddChosenCartToDeckContent, "There is " + actualAmountOfSingleTypeCartInSingleDeck.toString()+ " "+ lstCartMap[cartId]!!.name.toString()+" carts in this deck", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@AddChosenCartToDeckContent, "There is " + actualAmountOfSingleTypeCartInSingleDeck.toString()+ " "+ lstCartMap[cartId]!!.name.toString()+" cards in this deck", Toast.LENGTH_SHORT).show()
 
         refreshData(mRecyclerView,cartId,quantity)
     }

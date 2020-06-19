@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
@@ -54,12 +54,12 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_readJSON"
-            android:text="Open JSON"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+<!--        <Button-->
+<!--            android:id="@+id/btn_readJSON"-->
+<!--            android:text="Open JSON"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"/>-->
     </LinearLayout>
 
     <ListView

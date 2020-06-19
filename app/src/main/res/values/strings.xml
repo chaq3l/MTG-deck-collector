@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">SimpleSQLApp</string>
+    <string name="app_name">MTG deck manager</string>
     <string name="cartQuantityText">1</string>
 </resources>

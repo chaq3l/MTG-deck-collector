@@ -26,19 +26,25 @@ class DeckCreatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_deck_creator)
 
 
-
+        val actualDeck = findViewById<EditText>(R.id.deck_id)
         db = DBHelper(this)
         refreshData()
 
 
         btn_update.setOnClickListener {
-            val deck = Deck(
-                Integer.parseInt(deck_id.text.toString()),
-                deck_name.text.toString()
-            )
-            db.updateDeck(deck)
+            val deckName = actualDeck.text.toString()
+            if (deckName == "") {
 
-            refreshData()
+            } else {
+
+                val deck = Deck(
+                    Integer.parseInt(deck_id.text.toString()),
+                    deck_name.text.toString()
+                )
+                db.updateDeck(deck)
+
+                refreshData()
+            }
         }
 
 
@@ -55,14 +61,19 @@ class DeckCreatorActivity : AppCompatActivity() {
 
 
         btn_delete.setOnClickListener {
-            val deck = Deck(
-                Integer.parseInt(deck_id.text.toString()),
-                deck_name.text.toString()
-            )
-            db.deleteDeck(deck)
+            val deckName = actualDeck.text.toString()
+            if (deckName == "") {
 
-            refreshData()
+            } else {
 
+                val deck = Deck(
+                    Integer.parseInt(deck_id.text.toString()),
+                    deck_name.text.toString()
+                )
+                db.deleteDeck(deck)
+
+                refreshData()
+            }
         }
 
         btn_back_to_main.setOnClickListener {
@@ -71,7 +82,7 @@ class DeckCreatorActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val actualDeck = findViewById<EditText>(R.id.deck_id)
+
         btn_show_deck.setOnClickListener {
             val deck = actualDeck.text.toString()
             if (deck == "") {

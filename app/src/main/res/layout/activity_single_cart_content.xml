@@ -47,21 +47,21 @@
     <ImageView
         android:id="@+id/cart_image"
         android:layout_width="match_parent"
-        android:layout_height="597dp"
+        android:layout_height="640dp"
         android:layout_alignParentTop="true"
         android:src="@mipmap/ic_2xclick_foreground" />
 
     <TextView
         android:id="@+id/cart_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:choiceMode="singleChoice"
         android:hint="" />
 
     <TextView
             android:id="@+id/cart_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:choiceMode="singleChoice" />
 
 </LinearLayout>

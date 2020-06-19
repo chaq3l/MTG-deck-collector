@@ -5,7 +5,6 @@ package com.example.simplesqlapp
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -16,7 +15,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.simplesqlapp.DBHelper.SingleCartDBHelper
-import kotlinx.android.synthetic.main.activity_single_cart_content.*
 import java.io.InputStream
 import java.net.URL
 
@@ -55,8 +53,14 @@ class SingleCartContent : AppCompatActivity() {
         cartTitle.text = actualCart.name
         val actualCartDescription = findViewById<TextView>(R.id.cart_description)
         actualCartDescription.text = actualCart.cartText
-
+        val cardImageURL = actualCart.cartImageUris
         val addCartToDeckButton = findViewById<Button>(R.id.btn_add_cart_to_deck)
+
+//        val cardBitmap = loadImageFromWebOperations(actualCart.cartImageUris)?.let {
+////            drawableToBitmap(
+////                it
+////            )
+////        }
 
 
         //potrzebny permission na uzycie linku do wczytania obrazka "android.permission.INTERNET"
@@ -80,11 +84,32 @@ class SingleCartContent : AppCompatActivity() {
     }
 
 
-    fun runImageUIThread(url:String, cardFace:ImageView){
+    private fun runImageUIThreadBitmapLoadOnly(url:String): Bitmap? {
+        var bitmap :Bitmap? = null
         var thread = Thread(Runnable {
             try {
                 Log.d("Image url", url)
-                val bitmap = (LoadImageFromWebOperations(url)?.let {
+                bitmap = (loadImageFromWebOperations(url)?.let {
+                    drawableToBitmap(
+                        it
+                    )
+                } )
+
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
+
+        thread.start()
+        return bitmap
+    }
+
+    private fun runImageUIThread(url:String, cardFace:ImageView){
+        var thread = Thread(Runnable {
+            try {
+                Log.d("Image url", url)
+                val bitmap = (loadImageFromWebOperations(url)?.let {
                     drawableToBitmap(
                         it
                     )
@@ -101,14 +126,14 @@ class SingleCartContent : AppCompatActivity() {
     }
 
 
-    fun LoadImageFromWebOperations(url: String?): Drawable? {
+    private fun loadImageFromWebOperations(url: String?): Drawable? {
         val image: InputStream = URL(url).content as InputStream
         return Drawable.createFromStream(image, "srcName")
 
         }
 
 
-    fun drawableToBitmap(drawable: Drawable): Bitmap? {
+    private fun drawableToBitmap(drawable: Drawable): Bitmap? {
         if (drawable is BitmapDrawable) {
             return drawable.bitmap
         }

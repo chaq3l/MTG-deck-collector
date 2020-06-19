@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/txt_find_a_cart"
-        android:text="FIND A CADT"
+        android:text="FIND A CARD"
         android:textStyle="bold"
         android:textSize="40sp"
         android:layout_margin="10dp"
@@ -44,7 +44,7 @@
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Back" />
+            android:text="To Main" />
 
     </LinearLayout>
 
